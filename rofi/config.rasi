@@ -15,12 +15,12 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #1e1e2e66;
-  bg-alt: #585b7066;
-  bg-selected: #31324466;
+  bg: #33333366;
+  bg-alt: #cc0000bb;
+  bg-selected: #cccc00aa;
 
-  fg: #cdd6f4;
-  fg-alt: #7f849c;
+  fg: #333333;
+  fg-alt: #00cccc;
 
   
   border: 0;
@@ -32,6 +32,7 @@ configuration {
 window {
   width: 30%;
   background-color: @bg;
+  border-radius: 8px;
 }
 
 element {
