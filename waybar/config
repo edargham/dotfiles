@@ -55,13 +55,13 @@
     "temperature": {
         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        "format": "{temperatureC}°C ",
-        "format-critical": "{temperatureC}°C "
+        "format": " {temperatureC}°C",
+        "format-critical": " {temperatureC}°C"
     },
     
     "cpu": {
-        "format": " {usage}% {icon} {avg_frequency}GHz",
-        "format-alt": " {usage}%",
+        "format": "  {usage}% {icon} {avg_frequency}GHz",
+        "format-alt": "  {usage}%",
         "tooltip": true,
         "interval": 2,
         "thermal-zone": 0,
@@ -70,8 +70,8 @@
     },
     
     "memory": {
-        "format": " {used} GiB/{total} GiB",
-        "format-alt": " {}%",
+        "format": "  {used} GiB/{total} GiB",
+        "format-alt": "  {}%",
         "interval": 2
     },
 
@@ -90,14 +90,14 @@
         "format-ethernet": " {ipaddr}/{cidr}",
         "tooltip-format": " {ifname} via {gwaddr}",
         "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected",
+        "format-disconnected": "  Disconnected",
         "format-alt": " {ifname}: {ipaddr}/{cidr}"
     },
     
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{icon} {volume}% {format_source}",
-        "format-bluetooth": "{volume}% {icon}  {format_source}",
+        "format": "{icon}  {volume}% {format_source}",
+        "format-bluetooth": "{icon} {volume}%  {format_source}",
         "format-bluetooth-muted": " {icon}  {format_source}",
         "format-muted": " {format_source}",
         "format-source": " {volume}%",
