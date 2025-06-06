@@ -60,18 +60,19 @@
     },
     
     "cpu": {
-        "format": "  {usage}% {icon} {avg_frequency}GHz",
-        "format-alt": "  {usage}%",
+
+        "format": " {usage}% {icon} {avg_frequency}GHz",
+        "format-alt": " {usage}%",
         "tooltip": true,
         "interval": 2,
         "thermal-zone": 0,
         "critical-threshold": 80,
-        "format-icons": ["", "", ""]
+        "format-icons": ["󰾆", "󰾅", "󰓅"]
     },
     
     "memory": {
-        "format": "  {used} GiB/{total} GiB",
-        "format-alt": "  {}%",
+        "format": " {used} GiB/{total} GiB",
+        "format-alt": " {}%",
         "interval": 2
     },
 
@@ -113,7 +114,6 @@
         },
         "on-click": "pavucontrol"
     },
-    
     
     "custom/power": {
         "format": "⏻",
