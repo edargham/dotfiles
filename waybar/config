@@ -1,0 +1,124 @@
+{
+    // "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 33, // Waybar height (to be removed for auto height)
+    "spacing": 4, // Gaps between modules
+    "margin-top": 0,
+    "margin-bottom": 0,
+    
+    // Choose the order of the modules
+    "modules-left": ["clock", "hyprland/workspaces", "wlr/taskbar"],
+    "modules-center": [],
+    "modules-right": ["pulseaudio", "network", "temperature", "cpu", "memory", "custom/gpu", "tray", "custom/power"],
+    
+    // Modules configuration
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "urgent": "",
+            "default": ""
+        }
+    },
+    
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 18,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": []
+    },
+    
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+    
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%Y-%m-%d %I:%M %p}",
+        "format-alt": "{:%I:%M %p}"
+    },
+
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C ",
+        "format-critical": "{temperatureC}°C "
+    },
+    
+    "cpu": {
+        "format": " {usage}% {icon} {avg_frequency}GHz",
+        "format-alt": " {usage}%",
+        "tooltip": true,
+        "interval": 2,
+        "thermal-zone": 0,
+        "critical-threshold": 80,
+        "format-icons": ["", "", ""]
+    },
+    
+    "memory": {
+        "format": " {used} GiB/{total} GiB",
+        "format-alt": " {}%",
+        "interval": 2
+    },
+
+    "custom/gpu": {
+        "exec": "~/.config/waybar/gpuinfo.sh",
+        "interval": 2,
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "alacritty -e nvtop"
+    },
+    
+    "network": {
+        "family": "ipv4", // ipv4|ipv6|both
+        "interface": "enp4s0", // Network interface to monitor
+        "format-wifi": "  {essid}",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "tooltip-format": " {ifname} via {gwaddr}",
+        "format-linked": " {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "format-alt": " {ifname}: {ipaddr}/{cidr}"
+    },
+    
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon}  {format_source}",
+        "format-bluetooth-muted": " {icon}  {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    
+    
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/power-menu.sh"
+    }
+}
+
