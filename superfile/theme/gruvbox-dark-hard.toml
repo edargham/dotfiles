@@ -1,0 +1,67 @@
+# Cyberpunk Theme (Modified from Gruvbox Dark Hard)
+# Theme create by: https://github.com/frost-phoenix
+# Update by(sort by time):
+#
+# Thanks for all contributor!!
+
+# If you want to make border display just set it same as sidebar background color
+
+# Code syntax highlight theme (you can go to https://github.com/alecthomas/chroma/blob/master/styles to find one you like)
+code_syntax_highlight = "monokai"
+
+# ========= Border =========
+file_panel_border = "#00FFFF"
+sidebar_border = "#666666"
+footer_border = "#666666"
+
+# ========= Border Active =========
+file_panel_border_active = "#00FFFF"
+sidebar_border_active = "#00FFFF"
+footer_border_active = "#FFFF00"
+modal_border_active = "#00FFFF"
+
+# ========= Background (bg) =========
+full_screen_bg = "#333333"
+file_panel_bg = "#333333"
+sidebar_bg = "#333333"
+footer_bg = "#333333"
+modal_bg = "#333333"
+
+# ========= Foreground (fg) =========
+full_screen_fg = "#00FFFF"
+file_panel_fg = "#00FFFF"
+sidebar_fg = "#00FFFF"
+footer_fg = "#00FFFF"
+modal_fg = "#00FFFF"
+
+# ========= Special Color =========
+cursor = "#00FFFF"
+correct = "#00FF00"
+error = "#FF0040"
+hint = "#00FFFF"
+cancel = "#666666"
+# Gradient color can only have two color!
+gradient_color = ["#FF0040", "#FFFF00"]
+
+# ========= File Panel Special Items =========
+file_panel_top_directory_icon = "#00FFFF"
+file_panel_top_path = "#00FFFF"
+file_panel_item_selected_fg = "#FFFF00"
+file_panel_item_selected_bg = "#1A1A1A"
+
+# ========= Sidebar Special Items =========
+sidebar_title = "#FF0040"
+sidebar_item_selected_fg = "#FFFF00"
+sidebar_item_selected_bg = "#1A1A1A"
+sidebar_divider = "#666666"
+
+# ========= Modal Special Items =========
+modal_cancel_fg = "#FF0040"
+modal_cancel_bg = ""
+
+modal_confirm_fg = "#00FF00"
+modal_confirm_bg = ""
+
+# ========= Help Menu =========
+help_menu_hotkey = "#00FFFF"
+help_menu_title = "#FF0040"
