@@ -33,6 +33,7 @@ button {
 button:hover {
     background: rgba(0, 255, 255, 0.1);
     box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #battery,
@@ -56,7 +57,6 @@ button:hover {
     color: #00ffff;
     border-radius: 8px;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
 }
 
 #battery:hover,
@@ -73,8 +73,9 @@ button:hover {
 #tray:hover,
 #idle_inhibitor:hover,
 #mpd:hover {
-    background: rgba(0, 20, 20, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #mode {
@@ -83,7 +84,6 @@ button:hover {
     border-radius: 8px;
     margin: 2px;
     padding: 0 8px;
-    border: 2px solid transparent;
 }
 
 #window,
@@ -97,12 +97,12 @@ button:hover {
 }
 
 #workspaces button:hover {
-    background: rgba(0, 255, 255, 0.1);
+    background: rgba(0, 255, 255, 0.2);
     box-shadow: inset 0 -2px #00ffff;
 }
 
 #workspaces button.focused {
-    background-color: rgba(0, 255, 255, 0.2);
+    background: rgba(0, 255, 255, 0.2);
     box-shadow: inset 0 -2px #00ffff;
 }
 
@@ -119,23 +119,22 @@ button:hover {
     border-radius: 8px;
     font-size: 13px;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
 }
 
 #clock:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #battery.charging, #battery.plugged {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #battery.charging:hover, #battery.plugged:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
 }
 
 @keyframes blink {
@@ -162,224 +161,220 @@ button:hover {
 
 #power-profiles-daemon.performance {
     background-color: rgba(255, 0, 64, 0.5);
-    color: #00ffff;
-    border: 2px solid transparent;
+    color: #000000;
 }
 
 #power-profiles-daemon.performance:hover {
-    background-color: rgba(255, 0, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: inset 0 -2px #ff0040;
+    color: #ff0040;
 }
 
 #power-profiles-daemon.balanced {
     background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #power-profiles-daemon.balanced:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #power-profiles-daemon.power-saver {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #power-profiles-daemon.power-saver:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00;
 }
 
 #custom-media {
     background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
     min-width: 100px;
-    border: 2px solid transparent;
 }
 
 #custom-media:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
 }
 
 #custom-media.custom-spotify {
     background-color: rgba(0, 255, 255, 0.5);
-    border: 2px solid transparent;
 }
 
 #custom-media.custom-spotify:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #custom-media.custom-vlc {
     background-color: rgba(255, 255, 0, 0.5);
-    border: 2px solid transparent;
+    color: #000000;
 }
 
 #custom-media.custom-vlc:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00;
 }
 
 #mpd {
     background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #mpd:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #cpu {
     background-color: rgba(255, 0, 64, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #cpu:hover {
-    background-color: rgba(255, 0, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: inset 0 -2px #ff0040;
+    color: #ff0040;
 }
 
 #memory {
     background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #memory:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #custom-gpu {
-    background-color: rgba(255, 255, 0, 0.5);
+    background-color: rgba(0, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #custom-gpu:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #00ff00;
+    color: #00ff00;
 }
 
 #disk {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #disk:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00;
 }
 
 #backlight {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #backlight:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00;
 }
 
 #network {
     background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #network:hover {
-    background-color: rgba(0, 255, 255, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #network.disconnected {
     background-color: rgba(255, 0, 64, 0.5);
-    color: #00ffff;
-    border: 2px solid transparent;
+    color: #000000;
 }
 
 #network.disconnected:hover {
-    background-color: rgba(255, 0, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: inset 0 -2px #ff0040;
+    color: #ff0040;
 }
 
 #pulseaudio {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
     min-width: 96px;
-    border: 2px solid transparent;
 }
 
 #pulseaudio:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00;
 }
 
 #pulseaudio.muted {
     background-color: rgba(64, 64, 64, 0.5);
     color: #00ffff;
-    border: 2px solid transparent;
 }
 
 #pulseaudio.muted:hover {
-    background-color: rgba(64, 64, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
+    color: #00ffff;
 }
 
 #temperature {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #temperature:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
+    color: #ffff00
 }
 
 #tray {
     background-color: rgba(0, 20, 20, 0.5);
     border-radius: 8px;
     margin: 2px;
-    padding: 0 8px;
-    border: 2px solid transparent;
 }
 
 #tray:hover {
-    background-color: rgba(0, 20, 20, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 20, 20, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
 }
 
 #wireplumber {
     background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
-    border: 2px solid transparent;
 }
 
 #wireplumber:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 255, 0, 0.2);
+    box-shadow: inset 0 -2px #ffff00;
 }
 
 #wireplumber.muted {
     background-color: rgba(255, 0, 64, 0.5);
     color: #00ffff;
-    border: 2px solid transparent;
 }
 
 #wireplumber.muted:hover {
-    background-color: rgba(255, 0, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: inset 0 -2px #ff0040;
 }
 
 #mpd.stopped {
@@ -388,8 +383,8 @@ button:hover {
 }
 
 #mpd.stopped:hover {
-    background-color: rgba(64, 64, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
 }
 
 #mpd.paused {
@@ -398,8 +393,8 @@ button:hover {
 }
 
 #mpd.paused:hover {
-    background-color: rgba(255, 255, 0, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 -2px #00ffff;
 }
 
 #custom-power {
@@ -411,10 +406,10 @@ button:hover {
     padding: 0 8px;
     padding-right: 12px;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
 }
 
 #custom-power:hover {
-    background-color: rgba(255, 0, 64, 0.67);
-    border: 2px solid #00ffff;
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: inset 0 -2px #ff0040;
+    color: #ff0040;
 }
