@@ -36,6 +36,10 @@ button:hover {
     color: #00ffff;
 }
 
+button.active {
+    box-shadow: inset 0 -2px #00ffff;
+}
+
 #battery,
 #cpu,
 #memory,
@@ -52,9 +56,8 @@ button:hover {
 #idle_inhibitor,
 #mpd {
     padding: 0 8px;
-    margin: 2px 2px;
+    margin: 1px 1px;
     background: rgba(0, 20, 20, 0.5);
-    color: #00ffff;
     border-radius: 8px;
     transition: all 0.3s ease;
 }
