@@ -71,7 +71,7 @@
     },
     
     "memory": {
-        "format": " {used} GiB/{total} GiB",
+        "format": " {used}GiB/{total}GiB",
         "format-alt": " {}%",
         "interval": 2
     },
