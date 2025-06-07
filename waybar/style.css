@@ -50,20 +50,40 @@ button:hover {
 #mode,
 #idle_inhibitor,
 #mpd {
-    padding: 0 10px;
-    margin: 4px 4px;
-    background: rgba(0, 20, 20, 0.67);
+    padding: 0 8px;
+    margin: 2px 2px;
+    background: rgba(0, 20, 20, 0.5);
     color: #00ffff;
     border-radius: 8px;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#custom-gpu:hover,
+#disk:hover,
+#temperature:hover,
+#backlight:hover,
+#network:hover,
+#pulseaudio:hover,
+#wireplumber:hover,
+#custom-media:hover,
+#tray:hover,
+#idle_inhibitor:hover,
+#mpd:hover {
+    background: rgba(0, 20, 20, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #mode {
     background-color: #ff0040;
     color: #000000;
     border-radius: 8px;
-    margin: 4px;
-    padding: 0 10px;
+    margin: 2px;
+    padding: 0 8px;
+    border: 2px solid transparent;
 }
 
 #window,
@@ -71,7 +91,7 @@ button:hover {
     padding: 0 5px;
     background-color: transparent;
     color: #00ffff;
-    margin: 3px;
+    margin: 1px;
     border-radius: 8px;
     transition: all 0.3s ease;
 }
@@ -92,18 +112,30 @@ button:hover {
 }
 
 #clock {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
-    padding: 0 10px;
-    margin: 4px 4px;
+    padding: 0 8px;
+    margin: 2px 2px;
     border-radius: 8px;
     font-size: 13px;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+#clock:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #battery.charging, #battery.plugged {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#battery.charging:hover, #battery.plugged:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 @keyframes blink {
@@ -129,132 +161,260 @@ button:hover {
 }
 
 #power-profiles-daemon.performance {
-    background-color: rgba(255, 0, 64, 0.67);
+    background-color: rgba(255, 0, 64, 0.5);
     color: #00ffff;
+    border: 2px solid transparent;
+}
+
+#power-profiles-daemon.performance:hover {
+    background-color: rgba(255, 0, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #power-profiles-daemon.balanced {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#power-profiles-daemon.balanced:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #power-profiles-daemon.power-saver {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#power-profiles-daemon.power-saver:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #custom-media {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
     min-width: 100px;
+    border: 2px solid transparent;
+}
+
+#custom-media:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #custom-media.custom-spotify {
+    background-color: rgba(0, 255, 255, 0.5);
+    border: 2px solid transparent;
+}
+
+#custom-media.custom-spotify:hover {
     background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #custom-media.custom-vlc {
+    background-color: rgba(255, 255, 0, 0.5);
+    border: 2px solid transparent;
+}
+
+#custom-media.custom-vlc:hover {
     background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #mpd {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#mpd:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #cpu {
-    background-color: rgba(255, 0, 64, 0.67);
+    background-color: rgba(255, 0, 64, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#cpu:hover {
+    background-color: rgba(255, 0, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #memory {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#memory:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #custom-gpu {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#custom-gpu:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #disk {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#disk:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #backlight {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#backlight:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #network {
-    background-color: rgba(0, 255, 255, 0.67);
+    background-color: rgba(0, 255, 255, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#network:hover {
+    background-color: rgba(0, 255, 255, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #network.disconnected {
-    background-color: rgba(255, 0, 64, 0.67);
+    background-color: rgba(255, 0, 64, 0.5);
     color: #00ffff;
+    border: 2px solid transparent;
+}
+
+#network.disconnected:hover {
+    background-color: rgba(255, 0, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #pulseaudio {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
     min-width: 96px;
+    border: 2px solid transparent;
+}
+
+#pulseaudio:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #pulseaudio.muted {
-    background-color: rgba(64, 64, 64, 0.67);
+    background-color: rgba(64, 64, 64, 0.5);
     color: #00ffff;
+    border: 2px solid transparent;
+}
+
+#pulseaudio.muted:hover {
+    background-color: rgba(64, 64, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #temperature {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
 }
 
-#temperature.critical {
-    background-color: rgba(255, 0, 64, 0.9);
-    color: #000000;
+#temperature:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #tray {
-    background-color: rgba(0, 20, 20, 0.67);
+    background-color: rgba(0, 20, 20, 0.5);
     border-radius: 8px;
-    margin: 4px;
-    padding: 0 10px;
+    margin: 2px;
+    padding: 0 8px;
+    border: 2px solid transparent;
+}
+
+#tray:hover {
+    background-color: rgba(0, 20, 20, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #wireplumber {
-    background-color: rgba(255, 255, 0, 0.67);
+    background-color: rgba(255, 255, 0, 0.5);
     color: #000000;
+    border: 2px solid transparent;
+}
+
+#wireplumber:hover {
+    background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #wireplumber.muted {
-    background-color: rgba(255, 0, 64, 0.67);
+    background-color: rgba(255, 0, 64, 0.5);
     color: #00ffff;
+    border: 2px solid transparent;
+}
+
+#wireplumber.muted:hover {
+    background-color: rgba(255, 0, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #mpd.stopped {
+    background-color: rgba(64, 64, 64, 0.5);
+    border: 2px solid transparent;
+}
+
+#mpd.stopped:hover {
     background-color: rgba(64, 64, 64, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #mpd.paused {
+    background-color: rgba(255, 255, 0, 0.5);
+    border: 2px solid transparent;
+}
+
+#mpd.paused:hover {
     background-color: rgba(255, 255, 0, 0.67);
+    border: 2px solid #00ffff;
 }
 
 #custom-power {
-    background-color: rgba(255, 0, 64, 0.67);
+    background-color: rgba(255, 0, 64, 0.5);
     color: #000000;
     font-size: 18px;
     border-radius: 8px;
-    margin: 4px 4px;
-    padding: 0 10px;
-    padding-right: 14px;
+    margin: 2px 2px;
+    padding: 0 8px;
+    padding-right: 12px;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
 #custom-power:hover {
-    background-color: rgba(255, 0, 64, 0.9);
-    box-shadow: 0 0 2px rgba(0, 255, 255, 0.4);
+    background-color: rgba(255, 0, 64, 0.67);
+    border: 2px solid #00ffff;
 }
