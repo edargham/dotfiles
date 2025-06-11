@@ -10,4 +10,8 @@ systemd/
 vlc/
 warp-terminal/
 xfce4/
+
 user-dirs.*
+QtProject.conf
+mimeapps.list
+Kitware/CMakeSetup.conf
