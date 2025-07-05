@@ -10,6 +10,8 @@ systemd/
 vlc/
 warp-terminal/
 xfce4/
+themes/
+inkscape/
 
 user-dirs.*
 QtProject.conf
