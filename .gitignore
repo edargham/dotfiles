@@ -10,10 +10,13 @@ systemd/
 vlc/
 warp-terminal/
 xfce4/
-themes/
 inkscape/
 
 user-dirs.*
 QtProject.conf
 mimeapps.list
 Kitware/CMakeSetup.conf
+
+GIMP/
+remmina/
+freerdp/

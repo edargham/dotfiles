@@ -10,15 +10,15 @@
 code_syntax_highlight = "monokai"
 
 # ========= Border =========
-file_panel_border = "#00FFFF"
+file_panel_border = "#5de5ff"
 sidebar_border = "#666666"
 footer_border = "#666666"
 
 # ========= Border Active =========
-file_panel_border_active = "#00FFFF"
-sidebar_border_active = "#00FFFF"
-footer_border_active = "#FFFF00"
-modal_border_active = "#00FFFF"
+file_panel_border_active = "#5de5ff"
+sidebar_border_active = "#5de5ff"
+footer_border_active = "#c7f5ff"
+modal_border_active = "#5de5ff"
 
 # ========= Background (bg) =========
 full_screen_bg = "#333333"
@@ -28,40 +28,40 @@ footer_bg = "#333333"
 modal_bg = "#333333"
 
 # ========= Foreground (fg) =========
-full_screen_fg = "#00FFFF"
-file_panel_fg = "#00FFFF"
-sidebar_fg = "#00FFFF"
-footer_fg = "#00FFFF"
-modal_fg = "#00FFFF"
+full_screen_fg = "#5de5ff"
+file_panel_fg = "#5de5ff"
+sidebar_fg = "#5de5ff"
+footer_fg = "#5de5ff"
+modal_fg = "#5de5ff"
 
 # ========= Special Color =========
-cursor = "#00FFFF"
-correct = "#00FF00"
-error = "#FF0040"
-hint = "#00FFFF"
+cursor = "#5de5ff"
+correct = "#c7f5ff"
+error = "#d946ef"
+hint = "#5de5ff"
 cancel = "#666666"
 # Gradient color can only have two color!
-gradient_color = ["#FF0040", "#FFFF00"]
+gradient_color = ["#d946ef", "#c7f5ff"]
 
 # ========= File Panel Special Items =========
-file_panel_top_directory_icon = "#00FFFF"
-file_panel_top_path = "#00FFFF"
-file_panel_item_selected_fg = "#FFFF00"
+file_panel_top_directory_icon = "#5de5ff"
+file_panel_top_path = "#5de5ff"
+file_panel_item_selected_fg = "#c7f5ff"
 file_panel_item_selected_bg = "#1A1A1A"
 
 # ========= Sidebar Special Items =========
-sidebar_title = "#FF0040"
-sidebar_item_selected_fg = "#FFFF00"
+sidebar_title = "#d946ef"
+sidebar_item_selected_fg = "#c7f5ff"
 sidebar_item_selected_bg = "#1A1A1A"
 sidebar_divider = "#666666"
 
 # ========= Modal Special Items =========
-modal_cancel_fg = "#FF0040"
+modal_cancel_fg = "#d946ef"
 modal_cancel_bg = ""
 
-modal_confirm_fg = "#00FF00"
+modal_confirm_fg = "#c7f5ff"
 modal_confirm_bg = ""
 
 # ========= Help Menu =========
-help_menu_hotkey = "#00FFFF"
-help_menu_title = "#FF0040"
+help_menu_hotkey = "#5de5ff"
+help_menu_title = "#d946ef"

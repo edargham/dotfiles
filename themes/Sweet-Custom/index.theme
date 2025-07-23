@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Sweet-Custom
+Comment=Sweet theme with magenta/cyan/yellow gradient highlights
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Sweet-Custom
+MetacityTheme=Sweet-Custom
+IconTheme=Boston
+ButtonLayout=:minimize,maximize,close

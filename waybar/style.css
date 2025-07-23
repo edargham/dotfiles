@@ -7,7 +7,7 @@
 
 window#waybar {
     background: rgba(0, 0, 0, 0.0);
-    color: #00ffff;
+    color: #5de5ff;
     border-radius: 0px;
     transition-property: background-color;
     transition-duration: .5s;
@@ -31,14 +31,14 @@ button {
 }
 
 button:hover {
-    background: rgba(0, 255, 255, 0.2);
-    box-shadow: inset 0 -2px #00ffff;
-    color: #00ffff;
+    background: rgba(93, 229, 255, 0.2);
+    box-shadow: inset 0 -2px #5de5ff;
+    color: #5de5ff;
 }
 
 button.active {
-    box-shadow: inset 0 -2px #ffff00;
-    background-color: rgba(255, 255, 00, 0.2);
+    box-shadow: inset 0 -2px #c7f5ff;
+    background-color: rgba(199, 245, 255, 0.2);
 }
 
 #battery,
@@ -80,7 +80,7 @@ button.active {
 }
 
 #mode {
-    background-color: #ff0040;
+    background-color: #d946ef;
     color: #000000;
     border-radius: 8px;
     margin: 2px;
@@ -91,38 +91,38 @@ button.active {
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
-    color: #00ffff;
+    color: #5de5ff;
     margin: 1px;
     border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 #workspaces button:hover {
-    background: rgba(0, 255, 255, 0.2);
-    box-shadow: inset 0 -2px #00ffff;
-    color: #00ffff;
+    background: rgba(93, 229, 255, 0.2);
+    box-shadow: inset 0 -2px #5de5ff;
+    color: #5de5ff;
 }
 
 #workspaces button.focused {
-    background: rgba(0, 255, 255, 0.2);
-    box-shadow: inset 0 -2px #00ffff;
+    background: rgba(93, 229, 255, 0.2);
+    box-shadow: inset 0 -2px #5de5ff;
 }
 
 #workspaces button.urgent {
-    background-color: #ff0040;
+    background-color: #d946ef;
     color: #000000;
 }
 
 #workspaces button.active {
-    box-shadow: inset 0 -2px #ff0040;
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
+    box-shadow: inset 0 -2px #b456f0;
+    background-color: rgba(180, 86, 240, 0.2);
+    color: #b456f0;
 }
 
 #clock {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
     padding: 0 8px;
     margin: 2px 2px;
     border-radius: 8px;
@@ -131,33 +131,33 @@ button.active {
 }
 
 #clock:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(93, 229, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #battery.charging, #battery.plugged {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #battery.charging:hover, #battery.plugged:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 @keyframes blink {
     to {
-        background-color: #ff0040;
+        background-color: #d946ef;
         color: #000000;
     }
 }
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.critical:not(.charging) {
-    background-color: rgba(255, 0, 64, 0.9);
+    background-color: rgba(217, 70, 239, 0.9);
     color: #000000;
     animation-name: blink;
     animation-duration: 0.5s;
@@ -171,179 +171,179 @@ button.active {
 }
 
 #power-profiles-daemon.performance {
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
-    box-shadow: inset 0 -2px #ff0040;
+    background-color: rgba(217, 70, 239, 0.2);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
 }
 
 #power-profiles-daemon.performance:hover {
-    background: rgba(255, 0, 64, 0.72);
+    background: rgba(217, 70, 239, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #power-profiles-daemon.balanced {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
 }
 
 #power-profiles-daemon.balanced:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(93, 229, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #power-profiles-daemon.power-saver {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #power-profiles-daemon.power-saver:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #custom-media {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
     min-width: 100px;
 }
 
 #custom-media:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(93, 229, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #custom-media.custom-spotify {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
 }
 
 #custom-media.custom-spotify:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(93, 229, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #custom-media.custom-vlc {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #custom-media.custom-vlc:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #cpu {
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
-    box-shadow: inset 0 -2px #ff0040;
+    background-color: rgba(217, 70, 239, 0.2);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
 }
 
 #cpu:hover {
-    background: rgba(255, 0, 64, 0.72);
+    background: rgba(217, 70, 239, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #memory {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(0, 184, 230, 0.2);
+    color: #00b8e6;
+    box-shadow: inset 0 -2px #00b8e6;
 }
 
 #memory:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(0, 184, 230, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #custom-gpu {
-    background-color: rgba(0, 255, 0, 0.2);
-    color: #00ff00;
-    box-shadow: inset 0 -2px #00ff00;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
 }
 
 #custom-gpu:hover {
-    background: rgba(0, 255, 0, 0.72);
+    background: rgba(93, 229, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #disk {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #disk:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #backlight {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #backlight:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #network {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(0, 184, 230, 0.2);
+    color: #00b8e6;
+    box-shadow: inset 0 -2px #00b8e6;
 }
 
 #network:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(0, 184, 230, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #network.disconnected {
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
-    box-shadow: inset 0 -2px #ff0040;
+    background-color: rgba(217, 70, 239, 0.2);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
 }
 
 #network.disconnected:hover {
-    background: rgba(255, 0, 64, 0.72);
+    background: rgba(217, 70, 239, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #pulseaudio {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
     min-width: 96px;
 }
 
 #pulseaudio:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #pulseaudio.muted {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(93, 229, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
 }
 
 #pulseaudio.muted:hover {
@@ -353,13 +353,13 @@ button.active {
 }
 
 #temperature {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #temperature:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
@@ -372,76 +372,76 @@ button.active {
 
 #tray:hover {
     background: rgba(0, 20, 20, 0.2);
-    box-shadow: inset 0 -2px #00ffff;
+    box-shadow: inset 0 -2px #5de5ff;
     color: #000000;
 }
 
 #wireplumber {
-    background-color: rgba(255, 255, 0, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
 }
 
 #wireplumber:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #wireplumber.muted {
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
-    box-shadow: inset 0 -2px #ff0040;
+    background-color: rgba(217, 70, 239, 0.2);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
 }
 
 #wireplumber.muted:hover {
-    background: rgba(255, 0, 64, 0.72);
+    background: rgba(217, 70, 239, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #mpd {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(0, 184, 230, 0.2);
+    color: #00b8e6;
+    box-shadow: inset 0 -2px #00b8e6;
 }
 
 #mpd:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(0, 184, 230, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #mpd.stopped {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #00ffff;
-    box-shadow: inset 0 -2px #00ffff;
+    background-color: rgba(0, 184, 230, 0.2);
+    color: #00b8e6;
+    box-shadow: inset 0 -2px #00b8e6;
     border: none;
 }
 
 #mpd.stopped:hover {
-    background: rgba(0, 255, 255, 0.72);
+    background: rgba(0, 184, 230, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #mpd.paused {
-    background-color: rgba(0, 255, 255, 0.2);
-    color: #ffff00;
-    box-shadow: inset 0 -2px #ffff00;
+    background-color: rgba(0, 184, 230, 0.2);
+    color: #c7f5ff;
+    box-shadow: inset 0 -2px #c7f5ff;
     border: none;
 }
 
 #mpd.paused:hover {
-    background: rgba(255, 255, 0, 0.72);
+    background: rgba(199, 245, 255, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
 
 #custom-power {
-    background-color: rgba(255, 0, 64, 0.2);
-    color: #ff0040;
-    box-shadow: inset 0 -2px #ff0040;
+    background-color: rgba(217, 70, 239, 0.2);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
     font-size: 18px;
     border-radius: 8px;
     margin: 2px 2px;
@@ -451,7 +451,7 @@ button.active {
 }
 
 #custom-power:hover {
-    background: rgba(255, 0, 64, 0.72);
+    background: rgba(217, 70, 239, 0.72);
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
