@@ -9,7 +9,7 @@
     // Choose the order of the modules
     "modules-left": ["clock", "hyprland/workspaces", "wlr/taskbar"],
     "modules-center": ["mpd"],
-    "modules-right": ["pulseaudio", "network", "temperature", "cpu", "memory", "custom/gpu", "tray", "custom/power"],
+    "modules-right": ["pulseaudio", "network", "temperature", "cpu", "memory", "custom/gpu", "tray", "custom/night-mode", "custom/power"],
     
     // Modules configuration
     "hyprland/workspaces": {
@@ -147,6 +147,14 @@
         "format": "⏻",
         "tooltip": false,
         "on-click": "~/.config/waybar/power-menu.sh"
+    },
+    
+    "custom/night-mode": {
+        "exec": "~/.config/waybar/night-mode.sh",
+        "interval": 2,
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/night-mode-toggle.sh"
     }
 }
 
