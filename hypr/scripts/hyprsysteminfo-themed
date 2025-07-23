@@ -1,0 +1,10 @@
+#!/bin/bash
+# Wrapper script for hyprsysteminfo to use Sweet-Custom theme
+
+# Set environment variables for Sweet-Custom theme
+export QT_QPA_PLATFORMTHEME=gtk3
+export QT_STYLE_OVERRIDE=fusion
+export GTK_THEME=Sweet-Custom:dark
+
+# Launch hyprsysteminfo with the theme environment
+exec /usr/bin/hyprsysteminfo "$@"
