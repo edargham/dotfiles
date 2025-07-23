@@ -2,25 +2,31 @@
 
 STATE_FILE="$HOME/.config/waybar/.night-mode-state"
 
-# Check state file first, fallback to process temperature detection
-if [ -f "$STATE_FILE" ]; then
-    STATE=$(cat "$STATE_FILE")
-else
-    # Fallback: detect based on current temperature if hyprsunset is running
-    if pgrep -x "hyprsunset" > /dev/null; then
-        # Check current temperature by looking at process arguments
-        CURRENT_TEMP=$(ps aux | grep "hyprsunset -t" | grep -v grep | awk '{print $13}')
-        if [ "$CURRENT_TEMP" = "3400" ] || [ "$CURRENT_TEMP" -lt "5000" ]; then
-            STATE="on"
-            echo "on" > "$STATE_FILE"
-        else
-            STATE="off"
-            echo "off" > "$STATE_FILE"
-        fi
+# Always check current hyprsunset temperature to detect keybinding changes
+if pgrep -x "hyprsunset" > /dev/null; then
+    # Check current temperature by looking at process arguments
+    CURRENT_TEMP=$(ps aux | grep "hyprsunset -t" | grep -v grep | awk '{print $13}')
+    if [ "$CURRENT_TEMP" = "3400" ] || [ "$CURRENT_TEMP" -lt "5000" ]; then
+        ACTUAL_STATE="on"
     else
-        STATE="off"
-        echo "off" > "$STATE_FILE"
+        ACTUAL_STATE="off"
     fi
+else
+    ACTUAL_STATE="off"
+fi
+
+# Check if state file exists and matches actual state
+if [ -f "$STATE_FILE" ]; then
+    STORED_STATE=$(cat "$STATE_FILE")
+    # If stored state doesn't match actual state, update it (keybinding was used)
+    if [ "$STORED_STATE" != "$ACTUAL_STATE" ]; then
+        echo "$ACTUAL_STATE" > "$STATE_FILE"
+    fi
+    STATE="$ACTUAL_STATE"
+else
+    # No state file, create one based on current state
+    STATE="$ACTUAL_STATE"
+    echo "$STATE" > "$STATE_FILE"
 fi
 
 # Set icon and tooltip based on state
