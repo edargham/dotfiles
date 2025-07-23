@@ -1,3 +1,47 @@
 [window]
 # Set opacity (0.0 = fully transparent, 1.0 = fully opaque)
 opacity = 0.72
+
+[colors]
+# CYBERPUNK Color Scheme
+[colors.primary]
+background = "#161925"
+foreground = "#c3c7d1"
+
+[colors.cursor]
+text = "#161925"
+cursor = "#5de5ff"
+
+[colors.selection]
+text = "#161925"
+background = "#5de5ff"
+
+[colors.normal]
+black = "#161925"
+red = "#d946ef"
+green = "#5de5ff"
+yellow = "#c7f5ff"
+blue = "#00b8e6"
+magenta = "#b456f0"
+cyan = "#5de5ff"
+white = "#c3c7d1"
+
+[colors.bright]
+black = "#222e39"
+red = "#d946ef"
+green = "#5de5ff"
+yellow = "#c7f5ff"
+blue = "#00b8e6"
+magenta = "#b456f0"
+cyan = "#5de5ff"
+white = "#fefefe"
+
+[colors.dim]
+black = "#161925"
+red = "#b456f0"
+green = "#00b8e6"
+yellow = "#5de5ff"
+blue = "#00b8e6"
+magenta = "#b456f0"
+cyan = "#00b8e6"
+white = "#c3c7d1"
