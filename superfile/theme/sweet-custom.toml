@@ -1,0 +1,63 @@
+# Sweet-Custom - Nuclear Cyberpunk Theme
+# Theme based on Sweet-Custom GTK theme colors
+# Colors: Magenta (#d946ef), Cyan (#5de5ff, #00b8e6), Light Blue (#c7f5ff)
+
+# Code syntax highlight theme
+code_syntax_highlight = "dracula"
+
+# ========= Border =========
+file_panel_border = "#00b8e6"
+sidebar_border = "#161925"
+footer_border = "#00b8e6"
+
+# ========= Border Active =========
+file_panel_border_active = "#d946ef"
+sidebar_border_active = "#5de5ff"
+footer_border_active = "#b456f0"
+modal_border_active = "#d946ef"
+
+# ========= Background (bg) =========
+full_screen_bg = "#161925"
+file_panel_bg = "#161925"
+sidebar_bg = "#161925"
+footer_bg = "#161925"
+modal_bg = "#1a1d2e"
+
+# ========= Foreground (fg) =========
+full_screen_fg = "#c7f5ff"
+file_panel_fg = "#c7f5ff"
+sidebar_fg = "#c7f5ff"
+footer_fg = "#c7f5ff"
+modal_fg = "#c7f5ff"
+
+# ========= Special Color =========
+cursor = "#5de5ff"
+correct = "#5de5ff"
+error = "#f38ba8"
+hint = "#00b8e6"
+cancel = "#b456f0"
+# Gradient color can only have two colors!
+gradient_color = ["#d946ef", "#5de5ff"]
+
+# ========= File Panel Special Items =========
+file_panel_top_directory_icon = "#d946ef"
+file_panel_top_path = "#5de5ff"
+file_panel_item_selected_fg = "#c7f5ff"
+file_panel_item_selected_bg = "#2a2d3e"
+
+# ========= Sidebar Special Items =========
+sidebar_title = "#d946ef"
+sidebar_item_selected_fg = "#c7f5ff"
+sidebar_item_selected_bg = "#2a2d3e"
+sidebar_divider = "#00b8e6"
+
+# ========= Modal Special Items =========
+modal_cancel_fg = "#161925"
+modal_cancel_bg = "#b456f0"
+
+modal_confirm_fg = "#161925"
+modal_confirm_bg = "#5de5ff"
+
+# ========= Help Menu =========
+help_menu_hotkey = "#5de5ff"
+help_menu_title = "#d946ef"
