@@ -11,6 +11,10 @@ vlc/
 warp-terminal/
 xfce4/
 inkscape/
+JetBrains/
+pupgui/
+deluge/
+xdg-desktop-portal/
 
 user-dirs.*
 QtProject.conf
@@ -20,3 +24,5 @@ Kitware/CMakeSetup.conf
 GIMP/
 remmina/
 freerdp/
+
+*.bak

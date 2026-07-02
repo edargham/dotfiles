@@ -52,3 +52,8 @@ blue = "#00b8e6"
 magenta = "#b456f0"
 cyan = "#00b8e6"
 white = "#c3c7d1"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

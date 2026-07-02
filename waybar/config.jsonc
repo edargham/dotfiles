@@ -7,7 +7,7 @@
     "margin-bottom": 0,
     
     // Choose the order of the modules
-    "modules-left": ["clock", "hyprland/workspaces", "wlr/taskbar"],
+    "modules-left": ["custom/swaync", "clock", "hyprland/workspaces", "wlr/taskbar"],
     "modules-center": ["mpd"],
     "modules-right": ["pulseaudio", "network", "temperature", "cpu", "memory", "custom/gpu", "tray", "custom/night-mode", "custom/power"],
     
@@ -43,7 +43,9 @@
     
     "tray": {
         "icon-size": 16,
-        "spacing": 8
+        "spacing": 8,
+        "show-passive-items": false,
+        "ignore-list": ["xwaylandvideobridge", "Xwayland Video Bridge_pipewireToXProxy"]
     },
     
     "clock": {
@@ -155,6 +157,28 @@
         "return-type": "json",
         "tooltip": true,
         "on-click": "~/.config/waybar/night-mode-toggle.sh"
+    },
+
+    "custom/swaync": {
+        "exec": "swaync-client -swb",
+        "exec-on-event": false,
+        "return-type": "json",
+        "tooltip": true,
+        "escape": true,
+        "format": "{icon} {text}",
+        "format-icons": {
+            "notification": "󱅫",
+            "none": "󰂚",
+            "dnd-notification": "󰂛",
+            "dnd-none": "󰂛",
+            "inhibited-notification": "󱅫",
+            "inhibited-none": "󰂚",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none": "󰂛"
+        },
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -C -sw",
+        "on-click-middle": "swaync-client -d -sw"
     }
 }
 

@@ -1,0 +1,24 @@
+{
+  "positionX": "left",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-width": 420,
+  "control-center-height": 640,
+  "control-center-margin-top": 12,
+  "control-center-margin-left": 12,
+  "notification-window-width": 400,
+  "timeout": 7000,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "widgets": ["inhibitors", "title", "dnd", "notifications"],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear All"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    }
+  }
+}

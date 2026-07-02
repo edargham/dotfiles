@@ -484,3 +484,44 @@ button.active {
     box-shadow: inset 0 -2px transparent;
     color: #000000;
 }
+
+#custom-swaync {
+    background-color: rgba(199, 245, 255, 0.2);
+    color: #5de5ff;
+    box-shadow: inset 0 -2px #5de5ff;
+    border-radius: 8px;
+    margin: 2px 2px;
+    padding: 0 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#custom-swaync:hover {
+    background: rgba(93, 229, 255, 0.72);
+    box-shadow: inset 0 -2px transparent;
+    color: #000000;
+}
+
+#custom-swaync.dnd {
+    background-color: rgba(180, 86, 240, 0.22);
+    color: #b456f0;
+    box-shadow: inset 0 -2px #b456f0;
+}
+
+#custom-swaync.dnd:hover {
+    background: rgba(180, 86, 240, 0.4);
+    box-shadow: inset 0 -2px transparent;
+    color: #000000;
+}
+
+#custom-swaync.critical {
+    background-color: rgba(217, 70, 239, 0.22);
+    color: #d946ef;
+    box-shadow: inset 0 -2px #d946ef;
+}
+
+#custom-swaync.critical:hover {
+    background: rgba(217, 70, 239, 0.4);
+    box-shadow: inset 0 -2px transparent;
+    color: #000000;
+}
