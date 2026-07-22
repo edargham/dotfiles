@@ -1,32 +1,61 @@
-Code/
-go/
-dconf/
-glib-*/
-gtk-*/
-matplotlib/
-pulse/
-qalculate/
-OpenRGB/
-systemd/
-vlc/
-warp-terminal/
-xfce4/
-inkscape/
-JetBrains/
-pupgui/
-deluge/
-xdg-desktop-portal/
+# Tracked subset of ~/.config
+#
+# Patterns are anchored with a leading "/" so they match only at the repo root.
+# An unanchored pattern such as "gtk-*/" also matches nested directories like
+# themes/Sweet-Custom/gtk-3.0/, which silently excluded the actual GTK theme
+# while still tracking its node_modules. Keep new patterns anchored.
 
-user-dirs.*
-QtProject.conf
-mimeapps.list
-Kitware/CMakeSetup.conf
+# --- Machine-local application state, caches, and hardware/account data ---
+/Code/
+/go/
+/dconf/
+/glib-*/
+/gtk-*/
+/matplotlib/
+/pulse/
+/qalculate/
+/OpenRGB/
+/vlc/
+/warp-terminal/
+/xfce4/
+/inkscape/
+/JetBrains/
+/pupgui/
+/deluge/
+/xdg-desktop-portal/
+/GIMP/
+/remmina/
+/freerdp/
+/Google/
+/Android Open Source Project/
+/Kitware/CMakeSetup.conf
 
-GIMP/
-remmina/
-freerdp/
+# qt5ct is not installed (Qt5 apps fall back to kvantum-qt5 / qt6ct); its
+# config is kept on disk but no longer tracked.
+/qt5ct/
+
+# --- Machine-local files ---
+/user-dirs.*
+/QtProject.conf
+/mimeapps.list
+
+# --- systemd: exclude generated *.wants state, keep hand-authored units ---
+# Re-inclusion must happen level by level; git will not descend into a
+# directory that is itself excluded.
+/systemd/*
+!/systemd/user/
+/systemd/user/*
+!/systemd/user/*.service
+!/systemd/user/*.target
+!/systemd/user/*.service.d/
+/systemd/user/*.service.d/*
+!/systemd/user/*.service.d/*.conf
+
+# --- Vendored Sweet-Custom theme: keep the theme, drop the npm build tree ---
+# node_modules alone is 28M / ~3.4k files and is reproducible from package.json.
+/themes/Sweet-Custom/node_modules/
+/themes/Sweet-Custom/package-lock.json
+*.css.map
+*.backup
 
 *.bak
-
-Google/
-Android Open Source Project/
