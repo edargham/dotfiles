@@ -7,5 +7,5 @@ Encoding=UTF-8
 [X-GNOME-Metatheme]
 GtkTheme=Sweet-Custom
 MetacityTheme=Sweet-Custom
-IconTheme=Boston
+IconTheme=Sweet-Purple
 ButtonLayout=:minimize,maximize,close
