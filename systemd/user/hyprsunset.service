@@ -1,8 +1,10 @@
 [Unit]
 Description=An application to enable a blue-light filter on Hyprland.
 Documentation=https://wiki.hyprland.org/Hypr-Ecosystem/hyprsunset/
+# PartOf: stop with the session. After: order behind the session target.
+# A unit that is WantedBy/PartOf a target must not also Requires it -- per
+# systemd.special(7) that inverts the dependency and can deadlock startup.
 PartOf=graphical-session.target
-Requires=graphical-session.target
 After=graphical-session.target
 ConditionEnvironment=WAYLAND_DISPLAY
 

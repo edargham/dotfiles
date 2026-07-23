@@ -1,44 +1,28 @@
 #!/bin/bash
+# Waybar module: render the night-mode (blue-light filter) icon.
+#
+# Single source of truth is hyprsunset's own IPC (`hyprctl hyprsunset
+# temperature`), queried live each poll. No state file -- the previous
+# implementation scraped `ps aux | awk '{print $13}'`, which broke on any
+# argument-order change and threw "integer expression expected" whenever
+# hyprsunset was not running (empty string compared with -lt).
+#
+# hyprsunset is managed by hyprsunset.service; day mode is 6000K, night ~3400K.
+# Anything below DAY_TEMP counts as "on".
 
-STATE_FILE="$HOME/.config/waybar/.night-mode-state"
+DAY_TEMP=6000
 
-# Always check current hyprsunset temperature to detect keybinding changes
-if pgrep -x "hyprsunset" > /dev/null; then
-    # Check current temperature by looking at process arguments
-    CURRENT_TEMP=$(ps aux | grep "hyprsunset -t" | grep -v grep | awk '{print $13}')
-    if [ "$CURRENT_TEMP" = "3400" ] || [ "$CURRENT_TEMP" -lt "5000" ]; then
-        ACTUAL_STATE="on"
-    else
-        ACTUAL_STATE="off"
-    fi
-else
-    ACTUAL_STATE="off"
-fi
+TEMP=$(hyprctl hyprsunset temperature 2>/dev/null)
 
-# Check if state file exists and matches actual state
-if [ -f "$STATE_FILE" ]; then
-    STORED_STATE=$(cat "$STATE_FILE")
-    # If stored state doesn't match actual state, update it (keybinding was used)
-    if [ "$STORED_STATE" != "$ACTUAL_STATE" ]; then
-        echo "$ACTUAL_STATE" > "$STATE_FILE"
-    fi
-    STATE="$ACTUAL_STATE"
-else
-    # No state file, create one based on current state
-    STATE="$ACTUAL_STATE"
-    echo "$STATE" > "$STATE_FILE"
-fi
-
-# Set icon and tooltip based on state
-if [ "$STATE" = "on" ]; then
-    ICON="󰖔"  # nf-md-weather_night (moon icon)
-    TOOLTIP="Night mode: ON (Click to disable)"
+# "on" only when we got a clean integer strictly below day temp.
+if [[ "$TEMP" =~ ^[0-9]+$ ]] && (( TEMP < DAY_TEMP )); then
+    ICON="󰖔"  # nf-md-weather_night (moon)
+    TOOLTIP="Night mode: ON (${TEMP}K) — click to disable"
     CLASS="night-mode-on"
 else
-    ICON="󰖙"  # nf-md-weather_sunny (sun icon)
-    TOOLTIP="Night mode: OFF (Click to enable)"
+    ICON="󰖙"  # nf-md-weather_sunny (sun)
+    TOOLTIP="Night mode: OFF — click to enable"
     CLASS="night-mode-off"
 fi
 
-# Output JSON for Waybar
-echo "{\"text\": \"$ICON\", \"tooltip\": \"$TOOLTIP\", \"class\": \"$CLASS\"}"
+printf '{"text": "%s", "tooltip": "%s", "class": "%s"}\n' "$ICON" "$TOOLTIP" "$CLASS"

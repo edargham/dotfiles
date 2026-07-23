@@ -59,3 +59,4 @@
 *.backup
 
 *.bak
+/waybar/.night-mode-state

@@ -153,7 +153,8 @@
     
     "custom/night-mode": {
         "exec": "~/.config/waybar/night-mode.sh",
-        "interval": 2,
+        "interval": 5,
+        "signal": 10,
         "return-type": "json",
         "tooltip": true,
         "on-click": "~/.config/waybar/night-mode-toggle.sh"

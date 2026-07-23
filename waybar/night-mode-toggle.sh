@@ -1,20 +1,23 @@
 #!/bin/bash
+# Toggle the night-mode blue-light filter via hyprsunset IPC.
+#
+# Invoked from both the Waybar module's on-click and the SUPER+N keybind.
+# State lives entirely in the running hyprsunset instance, so the two entry
+# points can never disagree and there is no state file to race on. The old
+# version did `pkill -9 hyprsunset; sleep 0.1; hyprsunset -t N &`, which killed
+# the systemd-managed daemon (triggering Restart=on-failure) and raced a bare
+# background process against it. IPC just retunes the daemon in place.
 
-STATE_FILE="$HOME/.config/waybar/.night-mode-state"
+DAY_TEMP=6000
+NIGHT_TEMP=3400
 
-# Check current state (compatible with both waybar and keybinding usage)
-if [ -f "$STATE_FILE" ] && [ "$(cat "$STATE_FILE")" = "on" ]; then
-    # Night mode is on, switch to day mode
-    pkill -9 hyprsunset
-    sleep 0.1
-    hyprsunset -t 6000 &
-    echo "off" > "$STATE_FILE"
-    # notify-send "Night Mode" "Disabled" -i weather-clear-night 2>/dev/null || true
+CURRENT=$(hyprctl hyprsunset temperature 2>/dev/null)
+
+if [[ "$CURRENT" =~ ^[0-9]+$ ]] && (( CURRENT < DAY_TEMP )); then
+    hyprctl hyprsunset temperature "$DAY_TEMP" >/dev/null
 else
-    # Night mode is off, switch to night mode  
-    pkill -9 hyprsunset
-    sleep 0.1
-    hyprsunset -t 3400 &
-    echo "on" > "$STATE_FILE"
-    # notify-send "Night Mode" "Enabled" -i weather-clear-night 2>/dev/null || true
+    hyprctl hyprsunset temperature "$NIGHT_TEMP" >/dev/null
 fi
+
+# Refresh the Waybar module immediately instead of waiting for the next poll.
+pkill -RTMIN+10 waybar 2>/dev/null || true
