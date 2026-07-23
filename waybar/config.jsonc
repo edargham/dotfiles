@@ -8,7 +8,7 @@
     
     // Choose the order of the modules
     "modules-left": ["custom/swaync", "clock", "hyprland/workspaces", "wlr/taskbar"],
-    "modules-center": ["mpd"],
+    "modules-center": [],
     "modules-right": ["pulseaudio", "network", "temperature", "cpu", "memory", "custom/gpu", "tray", "custom/night-mode", "custom/power"],
     
     // Modules configuration
@@ -55,7 +55,12 @@
     },
 
     "temperature": {
-        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        // hwmon indices (hwmon0, hwmon1, ...) are assigned in driver-probe
+        // order and are not stable across boots or kernel updates. Address the
+        // k10temp CPU sensor by its stable device path instead. The trailing
+        // hwmon/hwmonN subdir is intentionally omitted -- waybar appends it.
+        "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+        "input-filename": "temp1_input",
         "critical-threshold": 80,
         "format": " {temperatureC}°C",
         "format-critical": " {temperatureC}°C",
@@ -81,7 +86,7 @@
 
     "custom/gpu": {
         "exec": "~/.config/waybar/gpuinfo.sh",
-        "interval": 2,
+        "interval": 3,
         "return-type": "json",
         "tooltip": true,
         "on-click": "alacritty -e nvtop"
@@ -118,33 +123,6 @@
         "on-click": "pavucontrol"
     },
 
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 2,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
-    
     "custom/power": {
         "format": "⏻",
         "tooltip": false,

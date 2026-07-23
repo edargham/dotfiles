@@ -1,11 +1,35 @@
 #!/bin/bash
-CHOICE=$(printf "  Shutdown  \n  Restart  \n  Lock  \n  Logout  \n  Suspend  \n  Hibernate  " | bemenu -p "  Power Menu  " --fn "JetBrainsMono Nerd Font 12" -H 32 --hp 8 --nb "#000000ab" --nf "#5de5ff" --ab "#000000ab" --af "#5de5ff" --tb "#d946ef" --tf "#000000" --fb "#000000ab" --ff "#5de5ff" --hb "#c7f5ffab" --hf "#000000" --sb "#c7f5ffab" --sf "#000000" --scb "#000000ab" --scf "#c7f5ff")
+# Power menu, rendered with rofi so the cyberpunk palette lives only in
+# rofi/config.rasi instead of 16 hand-passed bemenu colour flags. Destructive
+# actions (shutdown/reboot/logout/hibernate) require a confirmation pick.
+
+set -euo pipefail
+
+menu() {
+    # $1 = prompt, remaining args on stdin are the newline-separated entries.
+    rofi -dmenu -i -p "$1" -theme-str 'listview { lines: 6; } window { width: 20%; }'
+}
+
+confirm() {
+    # Returns success only if the user explicitly picks "Yes".
+    local answer
+    answer=$(printf ' Yes\n No' | menu "$1")
+    [[ "$answer" == *Yes* ]]
+}
+
+CHOICE=$(printf '%s\n' \
+    ' Lock' \
+    ' Suspend' \
+    ' Logout' \
+    ' Hibernate' \
+    ' Restart' \
+    ' Shutdown' | menu 'Power')
 
 case "$CHOICE" in
-    *"Shutdown"*) poweroff ;;
-    *"Restart"*) reboot ;;
-    *"Lock"*) hyprlock ;;
-    *"Logout"*) hyprctl dispatch exit ;;
-    *"Suspend"*) systemctl suspend ;;
-    *"Hibernate"*) systemctl hibernate ;;
+    *Lock*)      hyprlock ;;
+    *Suspend*)   systemctl suspend ;;
+    *Logout*)    confirm 'Log out?'   && hyprctl dispatch exit ;;
+    *Hibernate*) confirm 'Hibernate?' && systemctl hibernate ;;
+    *Restart*)   confirm 'Reboot?'    && systemctl reboot ;;
+    *Shutdown*)  confirm 'Shut down?' && systemctl poweroff ;;
 esac
