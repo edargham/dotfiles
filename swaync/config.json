@@ -7,7 +7,7 @@
   "control-center-margin-top": 12,
   "control-center-margin-left": 12,
   "notification-window-width": 400,
-  "timeout": 7000,
+  "timeout": 10,
   "timeout-low": 5,
   "timeout-critical": 0,
   "widgets": ["inhibitors", "title", "dnd", "notifications"],
