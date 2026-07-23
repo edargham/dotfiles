@@ -12,6 +12,16 @@
 /glib-*/
 /gtk-*/
 /matplotlib/
+# ...but the GTK settings.ini files ARE theming config the desktop depends on
+# (see the theming model in CLAUDE.md), so keep those two. `bookmarks` and the
+# rest stay excluded as machine-local. Re-inclusion is level by level: git will
+# not descend into a directory that is itself excluded.
+!/gtk-3.0/
+!/gtk-4.0/
+/gtk-3.0/*
+/gtk-4.0/*
+!/gtk-3.0/settings.ini
+!/gtk-4.0/settings.ini
 /pulse/
 /qalculate/
 /OpenRGB/
