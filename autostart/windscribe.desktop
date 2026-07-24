@@ -1,1 +1,15 @@
-/etc/windscribe/autostart/windscribe.desktop
+[Desktop Entry]
+Type=Application
+Terminal=false
+Exec=/opt/windscribe/Windscribe --autostart %F
+Name=Windscribe
+Icon=Windscribe
+Categories=Network
+StartupWMClass=Windscribe
+SingleMainWindow=true
+# Disabled: don't auto-launch the Windscribe GUI on login. This user file shadows
+# the distro autostart entry (/etc/windscribe/autostart/windscribe.desktop, which
+# this replaced as a symlink). The windscribe-helper.service VPN backend is
+# separate and unaffected. Re-enable by setting Hidden=false or toggling
+# "Launch on startup" in the Windscribe app (which may recreate the symlink).
+Hidden=true
