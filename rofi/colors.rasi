@@ -1,0 +1,20 @@
+/* GENERATED FILE -- do not edit.
+ * Rendered by wallust from templates/rofi-colors.rasi.
+ * Imported by rofi/config.rasi via @import.
+ *
+ * rasi has no alpha() function, so translucent variants are composed here as
+ * 8-digit hex (RRGGBBAA).
+ */
+* {
+    bg:          #16192566;
+    bg-alt:      #b456f0bb;
+    bg-selected: #c7f5ffaa;
+
+    fg:          #161925;
+    fg-alt:      #5de5ff;
+
+    /* Solid variants, used by the power menu's larger surfaces. */
+    bg-solid:    #161925;
+    accent:      #5de5ff;
+    urgent:      #d946ef;
+}

@@ -1,0 +1,58 @@
+# GENERATED FILE -- do not edit.
+# Rendered by wallust into ~/.config/btop/themes/wallust.theme.
+# Selected by btop.conf -> color_theme = "wallust".
+
+theme[main_bg]="{{color0 | lower}}"
+theme[main_fg]="{{color7 | lower}}"
+theme[title]="{{color2 | lower}}"
+theme[hi_fg]="{{color1 | lower}}"
+theme[selected_bg]="{{color8 | lower}}"
+theme[selected_fg]="{{color2 | lower}}"
+theme[inactive_fg]="{{color8 | lower}}"
+theme[graph_text]="{{color3 | lower}}"
+theme[meter_bg]="{{color8 | lower}}"
+theme[proc_misc]="{{color5 | lower}}"
+
+# Box outlines
+theme[cpu_box]="{{color2 | lower}}"
+theme[mem_box]="{{color4 | lower}}"
+theme[net_box]="{{color5 | lower}}"
+theme[proc_box]="{{color1 | lower}}"
+theme[div_line]="{{color8 | lower}}"
+
+# Temperature gradient: cool -> hot
+theme[temp_start]="{{color4 | lower}}"
+theme[temp_mid]="{{color3 | lower}}"
+theme[temp_end]="{{color1 | lower}}"
+
+# CPU load gradient
+theme[cpu_start]="{{color2 | lower}}"
+theme[cpu_mid]="{{color3 | lower}}"
+theme[cpu_end]="{{color1 | lower}}"
+
+# Memory / disk gradients
+theme[free_start]="{{color4 | lower}}"
+theme[free_mid]="{{color2 | lower}}"
+theme[free_end]="{{color3 | lower}}"
+theme[cached_start]="{{color2 | lower}}"
+theme[cached_mid]="{{color3 | lower}}"
+theme[cached_end]="{{color5 | lower}}"
+theme[available_start]="{{color3 | lower}}"
+theme[available_mid]="{{color2 | lower}}"
+theme[available_end]="{{color4 | lower}}"
+theme[used_start]="{{color5 | lower}}"
+theme[used_mid]="{{color1 | lower}}"
+theme[used_end]="{{color1 | lower}}"
+
+# Network gradients
+theme[download_start]="{{color4 | lower}}"
+theme[download_mid]="{{color2 | lower}}"
+theme[download_end]="{{color3 | lower}}"
+theme[upload_start]="{{color5 | lower}}"
+theme[upload_mid]="{{color1 | lower}}"
+theme[upload_end]="{{color1 | lower}}"
+
+# Process gradient
+theme[process_start]="{{color2 | lower}}"
+theme[process_mid]="{{color5 | lower}}"
+theme[process_end]="{{color1 | lower}}"

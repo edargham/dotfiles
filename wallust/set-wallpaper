@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# set-wallpaper [theme] -- put wallpapers on both outputs via awww.
+#
+# Called from hypr/autostart.lua at session start and from theme-switch after a
+# palette change, so a theme switch animates the wallpaper instead of leaving a
+# mismatched one behind.
+#
+# Replaces hyprpaper, which swapped instantly with no transition. awww (a swww
+# fork, already installed) keeps a daemon and animates between images.
+#
+# Per-theme wallpapers are OPTIONAL. Resolution order for theme "foo":
+#   1. wallpapers/foo-<OUTPUT>.{jpg,jpeg,png}   per-monitor, per-theme
+#   2. wallpapers/foo.{jpg,jpeg,png}            one image on every monitor
+#   3. the DEFAULTS below                       unchanged cyberpunk pair
+#
+# Drop files into ~/.config/wallust/wallpapers/ to use 1 or 2; nothing else
+# needs editing.
+
+set -uo pipefail
+
+WALLS="$HOME/Pictures/Wallpapers"
+THEME_WALLS="$HOME/.config/wallust/wallpapers"
+THEME="${1-$(cat "$HOME/.config/wallust/current" 2>/dev/null || echo)}"
+
+# Default per-output wallpapers (what hyprpaper.conf used to set).
+declare -A DEFAULTS=(
+    ["DP-1"]="$WALLS/Cyberpunk-3.jpeg"
+    ["HDMI-A-1"]="$WALLS/Cyberpunk-2.jpg"
+)
+FALLBACK="$WALLS/Cyberpunk-3.jpeg"
+
+TRANSITION="${AWWW_TRANSITION:-wipe}"
+DURATION="${AWWW_DURATION:-1}"
+
+# awww needs its daemon; start it if it is not already up. The cache dir is
+# created up front because awww warns loudly about it missing on first run.
+mkdir -p "$HOME/.cache/awww"
+if ! pgrep -x awww-daemon >/dev/null 2>&1; then
+    setsid awww-daemon >/dev/null 2>&1 &
+    # Wait for the socket rather than sleeping a fixed amount.
+    for _ in {1..40}; do
+        awww query >/dev/null 2>&1 && break
+        sleep 0.1
+    done
+fi
+
+first_match() {
+    local base="$1" ext
+    for ext in jpg jpeg png webp; do
+        [[ -f "$base.$ext" ]] && { printf '%s\n' "$base.$ext"; return 0; }
+    done
+    return 1
+}
+
+# Outputs currently connected, from the compositor rather than a hardcoded list.
+#
+# Parse with jq, NOT a sed on "name": the monitors JSON also carries nested
+# activeWorkspace.name / specialWorkspace.name, so a naive match yields
+# ("HDMI-A-1" "2" "" "DP-1" "1" "") -- and `awww img -o ""` means ALL outputs,
+# which silently put one wallpaper on every monitor.
+mapfile -t OUTPUTS < <(hyprctl -j monitors 2>/dev/null | jq -r '.[].name' 2>/dev/null)
+# Drop anything empty just in case, then fall back to the known pair.
+OUTPUTS=("${OUTPUTS[@]/#/}")
+_clean=(); for o in "${OUTPUTS[@]-}"; do [[ -n "$o" ]] && _clean+=("$o"); done
+OUTPUTS=("${_clean[@]}")
+(( ${#OUTPUTS[@]} )) || OUTPUTS=("${!DEFAULTS[@]}")
+
+for out in "${OUTPUTS[@]}"; do
+    img=""
+    [[ -n "$THEME" ]] && img=$(first_match "$THEME_WALLS/$THEME-$out" || true)
+    [[ -z "$img" && -n "$THEME" ]] && img=$(first_match "$THEME_WALLS/$THEME" || true)
+    [[ -z "$img" ]] && img="${DEFAULTS[$out]-$FALLBACK}"
+    [[ -f "$img" ]] || continue
+    # Never pass an empty -o: awww treats that as "every output".
+    [[ -n "$out" ]] || continue
+
+    awww img -o "$out" "$img" \
+        --transition-type "$TRANSITION" \
+        --transition-duration "$DURATION" \
+        --resize crop >/dev/null 2>&1
+done

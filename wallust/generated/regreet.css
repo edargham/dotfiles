@@ -1,0 +1,105 @@
+/* GENERATED FILE -- do not edit.
+ * Rendered by wallust from templates/regreet.css into /etc/greetd/regreet.css
+ * (the path regreet's --style defaults to).
+ *
+ * The greeter therefore follows the same palette as the desktop. /etc is not
+ * writable by the user, so theme-switch copies this via doas -- see the
+ * install_greeter_css() step there.
+ *
+ * regreet is GTK4. Widget shapes come from the Sweet-Custom GTK theme
+ * (theme_name in regreet.toml); this only recolours.
+ */
+
+window {
+  background-color: #161925;
+}
+
+/* The login card */
+.main-box,
+box.vertical > frame,
+frame > box {
+  background-color: alpha(#161925, 0.82);
+  border: 1px solid alpha(#5de5ff, 0.35);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+label {
+  color: #c7f5ff;
+}
+
+/* Greeting / clock */
+#greeting_label,
+#clock_label {
+  color: #5de5ff;
+  font-weight: 700;
+}
+
+entry,
+entry.password {
+  background-color: alpha(#222e39, 0.9);
+  color: #fefefe;
+  caret-color: #5de5ff;
+  border: 2px solid alpha(#5de5ff, 0.55);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+entry:focus,
+entry.password:focus {
+  border-color: #d946ef;
+  box-shadow: 0 0 0 3px alpha(#d946ef, 0.25);
+}
+
+button {
+  background-image: none;
+  background-color: alpha(#5de5ff, 0.18);
+  color: #c7f5ff;
+  border: 1px solid alpha(#5de5ff, 0.45);
+  border-radius: 10px;
+  padding: 7px 14px;
+}
+
+button:hover {
+  background-color: alpha(#5de5ff, 0.35);
+  color: #161925;
+  border-color: #5de5ff;
+}
+
+button:active {
+  background-color: alpha(#b456f0, 0.45);
+  border-color: #b456f0;
+}
+
+/* Reboot / power-off get the destructive accent, matching the rofi power menu */
+#reboot_button:hover,
+#poweroff_button:hover {
+  background-color: alpha(#d946ef, 0.35);
+  border-color: #d946ef;
+  color: #161925;
+}
+
+dropdown,
+dropdown button,
+combobox button {
+  background-color: alpha(#222e39, 0.9);
+  color: #c7f5ff;
+  border: 1px solid alpha(#00b8e6, 0.45);
+  border-radius: 10px;
+}
+
+popover, popover contents, listview, listview row {
+  background-color: #161925;
+  color: #c7f5ff;
+}
+
+listview row:selected {
+  background-color: alpha(#00b8e6, 0.45);
+  color: #fefefe;
+}
+
+/* Auth failure message */
+#error_label, .error {
+  color: #d946ef;
+  font-weight: 700;
+}

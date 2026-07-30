@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+# theme-switch -- apply a named palette across the whole desktop.
+#
+#   theme-switch            # rofi picker (bound to SUPER+SHIFT+T)
+#   theme-switch <name>     # apply a specific palette
+#   theme-switch --list     # print available palettes
+#   theme-switch --current  # print the active palette
+#
+# Palettes live in ~/.config/wallust/colorschemes/*.json (pywal format).
+# wallust renders every template declared in wallust.toml, then this script
+# reloads each consumer. wallust itself has no post-hook support, which is why
+# the reloads live here.
+#
+# Terminal escape sequences are deliberately skipped: alacritty watches its
+# imported colors.toml and reloads on its own, and blasting sequences at every
+# pty can corrupt running TUI apps.
+
+set -euo pipefail
+
+WALLUST_DIR="$HOME/.config/wallust"
+SCHEMES_DIR="$WALLUST_DIR/colorschemes"
+CURRENT_FILE="$WALLUST_DIR/current"
+
+die() { printf 'theme-switch: %s\n' "$1" >&2; exit 1; }
+
+# Curated palettes: exact hand-authored colours in colorschemes/*.json.
+list_palettes() {
+    [[ -d "$SCHEMES_DIR" ]] || return 0
+    for f in "$SCHEMES_DIR"/*.json; do
+        [[ -e "$f" ]] || continue
+        basename "$f" .json
+    done
+}
+
+# wallust also ships ~617 named themes, and they render our templates exactly
+# the same way -- so they are offered alongside the curated ones for free.
+list_builtin() {
+    wallust theme list 2>/dev/null | sed -n 's/^- //p'
+}
+
+is_curated() { [[ -f "$SCHEMES_DIR/$1.json" ]]; }
+
+current_palette() {
+    [[ -r "$CURRENT_FILE" ]] && cat "$CURRENT_FILE" || echo ""
+}
+
+# Nudge GTK apps into re-reading ~/.config/gtk-{3,4}.0/gtk.css. GTK caches the
+# user stylesheet, and only a theme-change notification makes it re-read; the
+# flip to a different theme name and back is what triggers it.
+reload_gtk() {
+    command -v gsettings >/dev/null 2>&1 || return 0
+    local key="org.gnome.desktop.interface" theme
+    theme=$(gsettings get "$key" gtk-theme 2>/dev/null | tr -d "'") || return 0
+    [[ -n "$theme" ]] || return 0
+    gsettings set "$key" gtk-theme "Adwaita" 2>/dev/null || return 0
+    sleep 0.3
+    gsettings set "$key" gtk-theme "$theme" 2>/dev/null || true
+}
+
+# Install the generated greeter stylesheet into /etc. Needs root, so it is
+# best-effort: `doas -n` never prompts, and a failure here must not abort a
+# theme switch (the desktop part has already succeeded by then).
+install_greeter_css() {
+    local src="$WALLUST_DIR/generated/regreet.css"
+    [[ -r "$src" ]] || return 0
+    command -v doas >/dev/null 2>&1 || return 0
+    doas -n true 2>/dev/null || return 0
+    doas -n install -m 0644 -o root -g root "$src" /etc/greetd/regreet.css 2>/dev/null || true
+}
+
+apply() {
+    local name="$1"
+
+    if is_curated "$name"; then
+        wallust cs "$name" --skip-sequences --quiet
+    elif list_builtin | grep -qxF "$name"; then
+        wallust theme "$name" --skip-sequences --quiet
+    else
+        die "unknown theme '$name' (try --list)"
+    fi
+
+    # Compositor: re-executes the Lua config, picking up theme/colors.lua.
+    command -v hyprctl >/dev/null 2>&1 && hyprctl reload >/dev/null 2>&1 || true
+
+    # Status bar: SIGUSR2 makes waybar reload config + stylesheet in place.
+    pkill -USR2 -x waybar 2>/dev/null || true
+
+    # Notification daemon.
+    command -v swaync-client >/dev/null 2>&1 && swaync-client -rs >/dev/null 2>&1 || true
+
+    reload_gtk
+    install_greeter_css
+
+    printf '%s\n' "$name" > "$CURRENT_FILE"
+
+    # Wallpaper last, so its transition plays over an already-restyled desktop.
+    # Only swaps if the theme has its own wallpaper (see set-wallpaper).
+    [[ -x "$WALLUST_DIR/set-wallpaper" ]] && "$WALLUST_DIR/set-wallpaper" "$name" || true
+
+    printf 'theme-switch: applied %s\n' "$name"
+
+    # Not reloaded here because they read colours at launch: rofi, hyprlock,
+    # superfile, and Qt apps. Alacritty reloads itself via its config import.
+}
+
+# Curated palettes come first (they are the hand-tuned ones), then the built-in
+# library. The active theme is marked so the menu shows what is already applied.
+menu_entries() {
+    local cur; cur=$(current_palette)
+    { list_palettes; list_builtin; } | awk -v cur="$cur" '
+        !seen[$0]++ { print ($0 == cur ? $0 " (current)" : $0) }'
+}
+
+pick() {
+    command -v rofi >/dev/null 2>&1 || die "rofi not available; pass a theme name instead"
+    local choice
+    choice=$(menu_entries | rofi -dmenu -i -p 'Theme' \
+                 -theme-str 'listview { lines: 12; } window { width: 24%; }')
+    [[ -n "${choice:-}" ]] || exit 0
+    apply "${choice% (current)}"
+}
+
+case "${1-}" in
+    ""          ) pick ;;
+    --list|-l   ) list_palettes; list_builtin ;;
+    --current|-c) current_palette ;;
+    -h|--help   ) sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//' ;;
+    -*          ) die "unknown option '$1'" ;;
+    *           ) apply "$1" ;;
+esac

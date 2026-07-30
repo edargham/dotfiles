@@ -1,0 +1,58 @@
+# GENERATED FILE -- do not edit.
+# Rendered by wallust into ~/.config/btop/themes/wallust.theme.
+# Selected by btop.conf -> color_theme = "wallust".
+
+theme[main_bg]="#161925"
+theme[main_fg]="#c3c7d1"
+theme[title]="#5de5ff"
+theme[hi_fg]="#d946ef"
+theme[selected_bg]="#222e39"
+theme[selected_fg]="#5de5ff"
+theme[inactive_fg]="#222e39"
+theme[graph_text]="#c7f5ff"
+theme[meter_bg]="#222e39"
+theme[proc_misc]="#b456f0"
+
+# Box outlines
+theme[cpu_box]="#5de5ff"
+theme[mem_box]="#00b8e6"
+theme[net_box]="#b456f0"
+theme[proc_box]="#d946ef"
+theme[div_line]="#222e39"
+
+# Temperature gradient: cool -> hot
+theme[temp_start]="#00b8e6"
+theme[temp_mid]="#c7f5ff"
+theme[temp_end]="#d946ef"
+
+# CPU load gradient
+theme[cpu_start]="#5de5ff"
+theme[cpu_mid]="#c7f5ff"
+theme[cpu_end]="#d946ef"
+
+# Memory / disk gradients
+theme[free_start]="#00b8e6"
+theme[free_mid]="#5de5ff"
+theme[free_end]="#c7f5ff"
+theme[cached_start]="#5de5ff"
+theme[cached_mid]="#c7f5ff"
+theme[cached_end]="#b456f0"
+theme[available_start]="#c7f5ff"
+theme[available_mid]="#5de5ff"
+theme[available_end]="#00b8e6"
+theme[used_start]="#b456f0"
+theme[used_mid]="#d946ef"
+theme[used_end]="#d946ef"
+
+# Network gradients
+theme[download_start]="#00b8e6"
+theme[download_mid]="#5de5ff"
+theme[download_end]="#c7f5ff"
+theme[upload_start]="#b456f0"
+theme[upload_mid]="#d946ef"
+theme[upload_end]="#d946ef"
+
+# Process gradient
+theme[process_start]="#5de5ff"
+theme[process_mid]="#b456f0"
+theme[process_end]="#d946ef"

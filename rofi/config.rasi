@@ -9,20 +9,16 @@ configuration {
   
   // enabling the icons
   show-icons: true;
-  icon-theme: "Papirus";
+  icon-theme: "Sweet-Purple";
 }
 
 @theme "/dev/null"
 
+/* Colours come from wallust -- see ~/.config/wallust/wallust.toml.
+ * colors.rasi is GENERATED; edit the palette or the template, not it. */
+@import "colors.rasi"
+
 * {
-  bg: #16192566;
-  bg-alt: #b456f0bb;
-  bg-selected: #c7f5ffaa;
-
-  fg: #161925;
-  fg-alt: #5de5ff;
-
-  
   border: 0;
   margin: 0;
   padding: 0;

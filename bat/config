@@ -1,0 +1,7 @@
+# bat themes are Sublime .tmTheme XML, not simple colour lists, so this one is
+# NOT generated from the palette (unlike btop/starship/fastfetch). Dracula is
+# the closest dark theme to the cyberpunk palette and matches the syntax theme
+# superfile uses.
+--theme="Dracula"
+--style="numbers,changes,header"
+--italic-text=always

@@ -1,109 +1,110 @@
-:root {
-  --bg: rgba(6, 10, 16, 0.92);
-  --bg-alt: rgba(6, 18, 26, 0.85);
-  --text: #c7f5ff;
-  --text-dim: #86b7c7;
-  --accent: #5de5ff;
-  --accent-2: #00b8e6;
-  --magenta: #d946ef;
-  --purple: #b456f0;
-  --danger: #d946ef;
-  --radius: 10px;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
-}
+/* Colours come from wallust -- see ~/.config/wallust/wallust.toml.
+ * colors.css is GENERATED; edit the palette or the template, not it.
+ *
+ * This file used `:root { --bg: ... }` + var(), which are web-CSS custom
+ * properties. GTK only gained those in recent GTK4, so they were unreliable
+ * here; @define-color + alpha() is the GTK-native equivalent and works in both
+ * GTK3 and GTK4.
+ *
+ * Two deliberate deltas from the old hand-written values, taken to put swaync
+ * on the shared palette: the notification background was #060a10/#06121a
+ * (darker than the palette's #161925), and --text-dim was #86b7c7 (a muted
+ * cyan that is not a palette colour, now the palette's deep cyan).
+ */
+@import "colors.css";
 
 * {
   font-family: "JetBrainsMono Nerd Font", "Inter", "Cantarell", sans-serif;
   font-size: 12px;
-  color: var(--text);
+  color: @text;
 }
 
 .notification-center, .control-center, .widget-title {
-  background: var(--bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: alpha(@bg, 0.92);
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
 .notification {
-  background: var(--bg-alt);
-  border-radius: var(--radius);
-  border: 1px solid rgba(93, 229, 255, 0.24);
+  background: alpha(@bg-alt, 0.85);
+  border-radius: 10px;
+  border: 1px solid alpha(@accent, 0.24);
   padding: 10px;
   margin: 6px;
 }
 
 .notification:hover {
-  border-color: var(--accent);
-  background: rgba(93, 229, 255, 0.1);
+  border-color: @accent;
+  background: alpha(@accent, 0.1);
 }
 
 .notification.critical {
-  border-color: var(--danger);
-  box-shadow: inset 0 -2px var(--danger);
+  border-color: @danger;
+  box-shadow: inset 0 -2px @danger;
 }
 
 .notification .title {
   font-weight: 700;
-  color: var(--text);
+  color: @text;
 }
 
 .notification .body {
-  color: var(--text-dim);
+  color: @text-dim;
 }
 
 .notification .time {
-  color: var(--text-dim);
+  color: @text-dim;
 }
 
 .do-not-disturb {
-  background: rgba(180, 86, 240, 0.16);
-  color: var(--purple);
+  background: alpha(@purple, 0.16);
+  color: @purple;
   border-radius: 999px;
   padding: 4px 10px;
-  border: 1px solid rgba(180, 86, 240, 0.35);
+  border: 1px solid alpha(@purple, 0.35);
 }
 
 .do-not-disturb.enabled {
-  background: rgba(217, 70, 239, 0.22);
-  color: var(--magenta);
-  border-color: rgba(217, 70, 239, 0.6);
+  background: alpha(@magenta, 0.22);
+  color: @magenta;
+  border-color: alpha(@magenta, 0.6);
 }
 
 .widget-icon, .icon-box {
-  color: var(--accent);
+  color: @accent;
 }
 
 .progress {
-  background: rgba(93, 229, 255, 0.08);
+  background: alpha(@accent, 0.08);
   border-radius: 999px;
 }
 
 .progress .progress-bar {
-  background: linear-gradient(90deg, var(--accent), var(--purple));
+  background: linear-gradient(90deg, @accent, @purple);
   border-radius: 999px;
 }
 
 .slider, scale slider {
-  background: rgba(0, 184, 230, 0.18);
+  background: alpha(@accent-2, 0.18);
   border-radius: 999px;
 }
 
 .actions button, button {
-  background: rgba(93, 229, 255, 0.14);
-  color: var(--text);
+  background: alpha(@accent, 0.14);
+  color: @text;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 6px 10px;
 }
 
 .actions button:hover, button:hover {
-  background: rgba(93, 229, 255, 0.25);
-  border-color: var(--accent);
+  background: alpha(@accent, 0.25);
+  border-color: @accent;
 }
 
 .actions button:active, button:active {
-  background: rgba(180, 86, 240, 0.3);
-  border-color: var(--purple);
+  background: alpha(@purple, 0.3);
+  border-color: @purple;
 }
 
 .image {
@@ -111,5 +112,5 @@
 }
 
 .placeholder {
-  color: var(--text-dim);
+  color: @text-dim;
 }

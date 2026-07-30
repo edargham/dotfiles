@@ -1,0 +1,85 @@
+/* GENERATED FILE -- do not edit.
+ * Rendered by wallust from templates/gtk-colors.css into BOTH
+ * ~/.config/gtk-3.0/gtk.css and ~/.config/gtk-4.0/gtk.css.
+ *
+ * HOW THIS WORKS
+ * The vendored Sweet-Custom theme declares 114 @define-color names in its own
+ * gtk.css. A user gtk.css is parsed AFTER the theme, so redefining a name here
+ * wins. That recolours GTK apps without touching the theme's SCSS sources or
+ * its committed compiled CSS -- avoiding the drift hazard documented in
+ * CLAUDE.md, and avoiding an SCSS rebuild on every theme switch.
+ *
+ * Widget shapes, borders, and assets stay Sweet-Custom. Only colour moves.
+ *
+ * Derived shades use GTK CSS's shade() function, since wallust has no
+ * lighten/darken filters (verified: lighten, darken, mix, shade all absent).
+ */
+
+/* ---- palette ---- */
+@define-color cp_bg      #161925;
+@define-color cp_bg_alt  #222e39;
+@define-color cp_fg      #c3c7d1;
+@define-color cp_cyan    #5de5ff;
+@define-color cp_deep    #00b8e6;
+@define-color cp_light   #c7f5ff;
+@define-color cp_magenta #d946ef;
+@define-color cp_purple  #b456f0;
+@define-color cp_white   #fefefe;
+
+/* ---- core surfaces ---- */
+@define-color theme_bg_color    @cp_bg;
+@define-color bg_color          @cp_bg;
+@define-color theme_base_color  shade(@cp_bg, 1.10);
+@define-color base_color        shade(@cp_bg, 1.10);
+@define-color content_view_bg   shade(@cp_bg, 1.10);
+@define-color text_view_bg      shade(@cp_bg, 1.10);
+
+/* ---- text ---- */
+@define-color theme_fg_color    @cp_fg;
+@define-color fg_color          @cp_fg;
+@define-color theme_text_color  @cp_fg;
+@define-color text_color        @cp_fg;
+
+/* ---- selection ---- */
+@define-color theme_selected_bg_color @cp_deep;
+@define-color selected_bg_color       @cp_deep;
+@define-color theme_selected_fg_color @cp_white;
+@define-color selected_fg_color       @cp_white;
+
+/* ---- semantic ---- */
+@define-color warning_color @cp_light;
+@define-color error_color   @cp_purple;
+@define-color success_color @cp_cyan;
+
+/* ---- insensitive (disabled) ---- */
+@define-color insensitive_bg_color   shade(@cp_bg, 1.05);
+@define-color insensitive_base_color shade(@cp_bg, 1.05);
+@define-color insensitive_fg_color   alpha(@cp_fg, 0.5);
+
+/* ---- unfocused window variants ---- */
+@define-color theme_unfocused_bg_color          @cp_bg;
+@define-color theme_unfocused_base_color        shade(@cp_bg, 1.10);
+@define-color theme_unfocused_fg_color          alpha(@cp_fg, 0.8);
+@define-color theme_unfocused_text_color        alpha(@cp_fg, 0.8);
+@define-color theme_unfocused_selected_bg_color alpha(@cp_deep, 0.7);
+@define-color theme_unfocused_selected_fg_color @cp_white;
+@define-color unfocused_bg_color                @cp_bg;
+@define-color unfocused_base_color              shade(@cp_bg, 1.10);
+@define-color unfocused_fg_color                alpha(@cp_fg, 0.8);
+@define-color unfocused_text_color              alpha(@cp_fg, 0.8);
+@define-color unfocused_selected_bg_color       alpha(@cp_deep, 0.7);
+@define-color unfocused_selected_fg_color       @cp_white;
+@define-color unfocused_borders                 alpha(@cp_fg, 0.08);
+
+/* ---- borders ---- */
+@define-color borders alpha(@cp_fg, 0.12);
+
+/* ---- window manager decorations ---- */
+@define-color wm_bg_a            @cp_bg;
+@define-color wm_bg_b            shade(@cp_bg, 1.10);
+@define-color wm_border          alpha(@cp_cyan, 0.4);
+@define-color wm_borders_edge    alpha(@cp_cyan, 0.2);
+@define-color wm_highlight       alpha(@cp_cyan, 0.3);
+@define-color wm_shadow          alpha(@cp_bg, 0.9);
+@define-color wm_title           @cp_fg;
+@define-color wm_unfocused_title alpha(@cp_fg, 0.6);

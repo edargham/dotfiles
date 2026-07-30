@@ -1,0 +1,19 @@
+/* GENERATED FILE -- do not edit.
+ * Rendered by wallust from templates/swaync-colors.css.
+ * Imported by swaync/style.css.
+ *
+ * Uses @define-color rather than the `:root { --var }` custom properties the
+ * old style.css had -- @define-color is the GTK-native mechanism and works in
+ * both GTK3 and GTK4, whereas CSS custom properties only landed in recent
+ * GTK4. Translucent shades come from GTK's alpha() in style.css.
+ */
+
+@define-color bg        {{color0  | lower}};
+@define-color bg-alt    {{color8  | lower}};
+@define-color text      {{color3  | lower}};
+@define-color text-dim  {{color4  | lower}};
+@define-color accent    {{color2  | lower}};
+@define-color accent-2  {{color4  | lower}};
+@define-color magenta   {{color1  | lower}};
+@define-color purple    {{color5  | lower}};
+@define-color danger    {{color1  | lower}};

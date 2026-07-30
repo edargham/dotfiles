@@ -1,0 +1,19 @@
+/* GENERATED FILE -- do not edit.
+ * Rendered by wallust from templates/waybar-colors.css.
+ * Imported by waybar/style.css.
+ *
+ * style.css uses GTK CSS's alpha() function -- alpha(@cyan, 0.24) -- rather
+ * than pre-baked rgba() literals, so every translucent shade derives from
+ * these ten names. That is what let 175 hardcoded values collapse to this.
+ */
+
+@define-color bg        #161925;
+@define-color bg-alt    #222e39;
+@define-color fg        #c3c7d1;
+
+@define-color cyan      #5de5ff;
+@define-color cyan-deep #00b8e6;
+@define-color cyan-lt   #c7f5ff;
+@define-color magenta   #d946ef;
+@define-color purple    #b456f0;
+@define-color white     #fefefe;

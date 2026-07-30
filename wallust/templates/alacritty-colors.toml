@@ -1,0 +1,45 @@
+# GENERATED FILE -- do not edit.
+# Rendered by wallust from templates/alacritty-colors.toml.
+# Imported by alacritty/alacritty.toml via `general.import`.
+
+[colors.primary]
+background = "{{color0 | lower}}"
+foreground = "{{color7 | lower}}"
+
+[colors.cursor]
+text   = "{{color0 | lower}}"
+cursor = "{{cursor | lower}}"
+
+[colors.selection]
+text       = "{{color0 | lower}}"
+background = "{{color2 | lower}}"
+
+[colors.normal]
+black   = "{{color0 | lower}}"
+red     = "{{color1 | lower}}"
+green   = "{{color2 | lower}}"
+yellow  = "{{color3 | lower}}"
+blue    = "{{color4 | lower}}"
+magenta = "{{color5 | lower}}"
+cyan    = "{{color6 | lower}}"
+white   = "{{color7 | lower}}"
+
+[colors.bright]
+black   = "{{color8  | lower}}"
+red     = "{{color9  | lower}}"
+green   = "{{color10 | lower}}"
+yellow  = "{{color11 | lower}}"
+blue    = "{{color12 | lower}}"
+magenta = "{{color13 | lower}}"
+cyan    = "{{color14 | lower}}"
+white   = "{{color15 | lower}}"
+
+[colors.dim]
+black   = "{{color0 | lower}}"
+red     = "{{color5 | lower}}"
+green   = "{{color4 | lower}}"
+yellow  = "{{color2 | lower}}"
+blue    = "{{color4 | lower}}"
+magenta = "{{color5 | lower}}"
+cyan    = "{{color4 | lower}}"
+white   = "{{color7 | lower}}"

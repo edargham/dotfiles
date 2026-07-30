@@ -1,0 +1,69 @@
+# GENERATED FILE -- do not edit.
+# Rendered by wallust from templates/superfile-theme.toml.
+# Selected by superfile/config.toml -> theme = 'wallust'.
+#
+# Replaces the old hand-maintained sweet-custom.toml, which had two off-palette
+# strays: error = "#f38ba8" (a leftover catppuccin red) and modal_bg /
+# selection backgrounds of "#1a1d2e" / "#2a2d3e". Both now come from the
+# palette.
+
+# Code syntax highlight theme (a named chroma theme, not a colour -- superfile
+# has no palette-driven option here).
+code_syntax_highlight = "dracula"
+
+# ========= Border =========
+file_panel_border = "{{color4 | lower}}"
+sidebar_border = "{{color0 | lower}}"
+footer_border = "{{color4 | lower}}"
+
+# ========= Border Active =========
+file_panel_border_active = "{{color1 | lower}}"
+sidebar_border_active = "{{color2 | lower}}"
+footer_border_active = "{{color5 | lower}}"
+modal_border_active = "{{color1 | lower}}"
+
+# ========= Background (bg) =========
+full_screen_bg = "{{color0 | lower}}"
+file_panel_bg = "{{color0 | lower}}"
+sidebar_bg = "{{color0 | lower}}"
+footer_bg = "{{color0 | lower}}"
+modal_bg = "{{color8 | lower}}"
+
+# ========= Foreground (fg) =========
+full_screen_fg = "{{color3 | lower}}"
+file_panel_fg = "{{color3 | lower}}"
+sidebar_fg = "{{color3 | lower}}"
+footer_fg = "{{color3 | lower}}"
+modal_fg = "{{color3 | lower}}"
+
+# ========= Special Color =========
+cursor = "{{cursor | lower}}"
+correct = "{{color2 | lower}}"
+error = "{{color1 | lower}}"
+hint = "{{color4 | lower}}"
+cancel = "{{color5 | lower}}"
+# Gradient color can only have two colors!
+gradient_color = ["{{color1 | lower}}", "{{color2 | lower}}"]
+
+# ========= File Panel Special Items =========
+file_panel_top_directory_icon = "{{color1 | lower}}"
+file_panel_top_path = "{{color2 | lower}}"
+file_panel_item_selected_fg = "{{color3 | lower}}"
+file_panel_item_selected_bg = "{{color8 | lower}}"
+
+# ========= Sidebar Special Items =========
+sidebar_title = "{{color1 | lower}}"
+sidebar_item_selected_fg = "{{color3 | lower}}"
+sidebar_item_selected_bg = "{{color8 | lower}}"
+sidebar_divider = "{{color4 | lower}}"
+
+# ========= Modal Special Items =========
+modal_cancel_fg = "{{color0 | lower}}"
+modal_cancel_bg = "{{color5 | lower}}"
+
+modal_confirm_fg = "{{color0 | lower}}"
+modal_confirm_bg = "{{color2 | lower}}"
+
+# ========= Help Menu =========
+help_menu_hotkey = "{{color2 | lower}}"
+help_menu_title = "{{color1 | lower}}"

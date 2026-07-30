@@ -1,0 +1,104 @@
+# GENERATED FILE -- do not edit.
+# Rendered by wallust from templates/starship.toml into ~/.config/starship.toml.
+#
+# The prompt follows the active theme: every colour below is a palette entry,
+# so SUPER+SHIFT+T restyles the shell along with the desktop. Open shells pick
+# it up on the next prompt (starship re-reads its config each render).
+
+format = """
+[](fg:accent)\
+$os\
+$directory\
+[](fg:accent bg:deep)\
+$git_branch$git_status\
+[](fg:deep bg:surface)\
+$python$rust$nodejs$golang$c\
+[](fg:surface)\
+$fill\
+$cmd_duration\
+$line_break\
+$character"""
+
+palette = "wallust"
+
+[palettes.wallust]
+bg      = "#161925"
+surface = "#222e39"
+fg      = "#c3c7d1"
+accent  = "#5de5ff"
+deep    = "#00b8e6"
+light   = "#c7f5ff"
+magenta = "#d946ef"
+purple  = "#b456f0"
+white   = "#fefefe"
+
+[fill]
+symbol = " "
+
+[os]
+disabled = false
+style = "bg:accent fg:bg bold"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Arch = ""
+Linux = ""
+
+[directory]
+style = "bg:accent fg:bg bold"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " "
+
+[directory.substitutions]
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = "󰝚"
+"Pictures" = ""
+"Developer" = "󰲋"
+".config" = ""
+
+[git_branch]
+symbol = ""
+style = "bg:deep fg:bg bold"
+format = "[ $symbol $branch ]($style)"
+
+[git_status]
+style = "bg:deep fg:bg"
+format = "[$all_status$ahead_behind ]($style)"
+
+[python]
+symbol = ""
+style = "bg:surface fg:light"
+format = "[ $symbol( $version)( \\($virtualenv\\)) ]($style)"
+
+[rust]
+symbol = ""
+style = "bg:surface fg:light"
+format = "[ $symbol( $version) ]($style)"
+
+[nodejs]
+symbol = ""
+style = "bg:surface fg:light"
+format = "[ $symbol( $version) ]($style)"
+
+[golang]
+symbol = ""
+style = "bg:surface fg:light"
+format = "[ $symbol( $version) ]($style)"
+
+[c]
+symbol = ""
+style = "bg:surface fg:light"
+format = "[ $symbol( $version) ]($style)"
+
+[cmd_duration]
+min_time = 500
+style = "fg:purple"
+format = "[  $duration ]($style)"
+
+[character]
+success_symbol = "[❯](bold accent)"
+error_symbol = "[❯](bold magenta)"
+vimcmd_symbol = "[❮](bold light)"

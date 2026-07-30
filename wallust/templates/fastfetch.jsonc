@@ -1,0 +1,57 @@
+// GENERATED FILE -- do not edit.
+// Rendered by wallust into ~/.config/fastfetch/config.jsonc.
+//
+// fastfetch previously ran with no config at all (stock defaults, stock
+// colours) on every interactive shell. It now runs once per terminal from
+// zsh/.zshrc and is themed from the palette.
+//
+// NOTE: divider colour comes from each module's "outputColor" rather than an
+// inline ANSI escape. JSON forbids raw control characters in strings, so an
+// embedded ESC makes fastfetch fail with "unexpected control character".
+// fastfetch accepts plain hex here (verified), so no escapes are needed at all.
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+  "logo": {
+    "type": "small",
+    "color": {
+      "1": "{{color2 | lower}}",
+      "2": "{{color1 | lower}}"
+    },
+    "padding": { "top": 1, "right": 3 }
+  },
+
+  "display": {
+    "separator": " ",
+    "color": {
+      "keys": "{{color2 | lower}}",
+      "title": "{{color1 | lower}}"
+    }
+  },
+
+  "modules": [
+    "break",
+    { "type": "title", "color": { "user": "{{color1 | lower}}", "host": "{{color2 | lower}}" } },
+    { "type": "custom", "format": "────────────────────────────────", "outputColor": "{{color4 | lower}}" },
+
+    { "type": "os",       "key": " os     " },
+    { "type": "kernel",   "key": " kernel " },
+    { "type": "uptime",   "key": " uptime " },
+    { "type": "packages", "key": " pkgs   " },
+    { "type": "shell",    "key": " shell  " },
+    { "type": "wm",       "key": " wm     " },
+    { "type": "terminal", "key": " term   " },
+
+    { "type": "custom", "format": "────────────────────────────────", "outputColor": "{{color4 | lower}}" },
+
+    { "type": "cpu",      "key": " cpu    " },
+    { "type": "gpu",      "key": " gpu    " },
+    { "type": "memory",   "key": " memory " },
+    { "type": "disk",     "key": " disk   " },
+    { "type": "display",  "key": " screen " },
+
+    "break",
+    { "type": "colors", "symbol": "circle", "paddingLeft": 1 },
+    "break"
+  ]
+}
