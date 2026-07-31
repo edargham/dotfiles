@@ -6,26 +6,32 @@
  * writable by the user, so theme-switch copies this via doas -- see the
  * install_greeter_css() step there.
  *
+ * COLOUR CHOICES: body text is `foreground` and surfaces are `background`,
+ * NOT color3/color0. color3 is a light tint only in cyberpunk -- in the
+ * imported palettes it is a dark yellow/olive, which rendered the User and
+ * Session dropdowns at 1.1:1 contrast on gruvbox. color0 likewise differs
+ * from the real background in 5 of the 7 palettes.
+ *
  * regreet is GTK4. Widget shapes come from the Sweet-Custom GTK theme
  * (theme_name in regreet.toml); this only recolours.
  */
 
 window {
-  background-color: {{color0 | lower}};
+  background-color: {{background | lower}};
 }
 
 /* The login card */
 .main-box,
 box.vertical > frame,
 frame > box {
-  background-color: alpha({{color0 | lower}}, 0.82);
+  background-color: alpha({{background | lower}}, 0.82);
   border: 1px solid alpha({{color2 | lower}}, 0.35);
   border-radius: 14px;
   padding: 18px;
 }
 
 label {
-  color: {{color3 | lower}};
+  color: {{foreground | lower}};
 }
 
 /* Greeting / clock */
@@ -37,8 +43,8 @@ label {
 
 entry,
 entry.password {
-  background-color: alpha({{color8 | lower}}, 0.9);
-  color: {{color15 | lower}};
+  background-color: alpha({{background | lower}}, 0.92);
+  color: {{foreground | lower}};
   caret-color: {{color2 | lower}};
   border: 2px solid alpha({{color2 | lower}}, 0.55);
   border-radius: 10px;
@@ -54,7 +60,7 @@ entry.password:focus {
 button {
   background-image: none;
   background-color: alpha({{color2 | lower}}, 0.18);
-  color: {{color3 | lower}};
+  color: {{foreground | lower}};
   border: 1px solid alpha({{color2 | lower}}, 0.45);
   border-radius: 10px;
   padding: 7px 14px;
@@ -62,7 +68,7 @@ button {
 
 button:hover {
   background-color: alpha({{color2 | lower}}, 0.35);
-  color: {{color0 | lower}};
+  color: {{background | lower}};
   border-color: {{color2 | lower}};
 }
 
@@ -76,21 +82,21 @@ button:active {
 #poweroff_button:hover {
   background-color: alpha({{color1 | lower}}, 0.35);
   border-color: {{color1 | lower}};
-  color: {{color0 | lower}};
+  color: {{background | lower}};
 }
 
 dropdown,
 dropdown button,
 combobox button {
-  background-color: alpha({{color8 | lower}}, 0.9);
-  color: {{color3 | lower}};
+  background-color: alpha({{background | lower}}, 0.92);
+  color: {{foreground | lower}};
   border: 1px solid alpha({{color4 | lower}}, 0.45);
   border-radius: 10px;
 }
 
 popover, popover contents, listview, listview row {
-  background-color: {{color0 | lower}};
-  color: {{color3 | lower}};
+  background-color: {{background | lower}};
+  color: {{foreground | lower}};
 }
 
 listview row:selected {

@@ -116,6 +116,15 @@ if [[ -d "$CANDY_MIME" ]]; then
         xargs -0 --no-run-if-empty \
             sed -i "s/#${DOC_START}/${C3}/Ig; s/#${DOC_END}/${C5}/Ig"
 
+    # Two of candy's mimetype entries are RELATIVE symlinks that escape the
+    # directory (application-vnd.cryptomator.* -> ../../apps/scalable/...), so
+    # copying mimetypes/ alone leaves them dangling. Drop any link that no longer
+    # resolves: the name then falls through Inherits= to candy-icons, which is
+    # the right answer anyway since those are app branding. Left in place they
+    # also break `rsync -L` when installing for the greeter -- rsync reports
+    # "symlink has no referent" and then silently SKIPS --delete.
+    find "$DST/mimetypes" -xtype l -delete 2>/dev/null || true
+
     # Register the directory, or the lookup never reaches it. Same spec
     # candy-icons uses for its own mimetypes/scalable.
     grep -q '^Directories=.*mimetypes/scalable' "$DST/index.theme" ||

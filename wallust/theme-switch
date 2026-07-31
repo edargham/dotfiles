@@ -47,20 +47,6 @@ current_palette() {
     [[ -r "$CURRENT_FILE" ]] && cat "$CURRENT_FILE" || echo ""
 }
 
-# Nudge GTK apps into re-reading their theming. Both flips work the same way --
-# away to a name that is always installed, then back -- because GTK only
-# re-reads on a theme-change notification.
-#
-# The ICON flip genuinely hot-reloads: GtkIconTheme blows its cache and re-reads
-# from disk on any gtk-icon-theme-name change, so open windows pick up the SVGs
-# build-icon-theme just wrote.
-#
-# The GTK-THEME flip is weaker than it looks. gtk_css_provider_get_named()
-# caches providers in a process-static hash keyed by name, so coming back to the
-# same name returns the CACHED provider -- and ~/.config/gtk-{3,4}.0/gtk.css is
-# read once at app start and never again. It is kept because it costs nothing
-# and does refresh a few settings-derived bits, but do not expect running GTK
-# apps to change colour from it. See CLAUDE.md for why that is mostly moot here.
 # Point every GTK entry point at the palette's built theme. The name changes per
 # palette on purpose -- that is what makes a running app re-read the CSS, since
 # gtk_css_provider_get_named() caches providers by name forever.
@@ -114,15 +100,63 @@ reload_gtk() {
         gsettings set org.cinnamon.desktop.interface gtk-theme "$theme" 2>/dev/null || true
 }
 
-# Install the generated greeter stylesheet into /etc. Needs root, so it is
-# best-effort: `doas -n` never prompts, and a failure here must not abort a
+# Make the login screen match the desktop. Everything here needs root, so it is
+# best-effort throughout: `doas -n` never prompts, and a failure must not abort a
 # theme switch (the desktop part has already succeeded by then).
-install_greeter_css() {
-    local src="$WALLUST_DIR/generated/regreet.css"
-    [[ -r "$src" ]] || return 0
+#
+# THE GREETER RUNS AS uid 968 AND CANNOT READ /home/edargham (mode drwx--x---).
+# That is why the theme and icons are copied into /usr/share instead of being
+# referenced in place, and why rsync uses -L: the built themes symlink gtk-2.0/
+# cinnamon/metacity-1/xfwm4/gnome-shell back into the repo, and an unresolved
+# symlink into $HOME is unreadable to the greeter -- regreet would silently fall
+# back to Adwaita with no error.
+#
+# To verify readability afterwards use setpriv, NEVER `doas -u greeter`: that
+# tries to AUTHENTICATE and racks up faillock tallies against your own account.
+#   doas setpriv --reuid=968 --regid=968 --clear-groups test -r <path>
+install_greeter() {
+    local name="$1"
+    local css="$WALLUST_DIR/generated/regreet.css"
+    local theme="$HOME/.local/share/themes/Sweet-$name"
+    local icons="$HOME/.local/share/icons/Sweet-Wallust"
+
     command -v doas >/dev/null 2>&1 || return 0
     doas -n true 2>/dev/null || return 0
-    doas -n install -m 0644 -o root -g root "$src" /etc/greetd/regreet.css 2>/dev/null || true
+
+    [[ -r "$css" ]] &&
+        doas -n install -m 0644 -o root -g root "$css" /etc/greetd/regreet.css 2>/dev/null || true
+
+    command -v rsync >/dev/null 2>&1 || return 0
+
+    # Only what the greeter actually renders. Dropping src/, the SCSS and the
+    # inert WM themes keeps this ~2.6 MB instead of pulling the whole tree.
+    if [[ -d "$theme" ]]; then
+        doas -n rsync -aL --delete \
+            --exclude '_render' --exclude '*.scss' --exclude 'src' \
+            "$theme/" "/usr/share/themes/Sweet-$name/" 2>/dev/null || true
+        # Keep only the active one; otherwise every palette ever used accumulates.
+        local d
+        for d in /usr/share/themes/Sweet-*/; do
+            d="${d%/}"
+            case "${d##*/}" in
+                "Sweet-$name"|"Sweet-Custom"|"Sweet") continue ;;
+                *) doas -n rm -rf "$d" 2>/dev/null || true ;;
+            esac
+        done
+    fi
+
+    [[ -d "$icons" ]] &&
+        doas -n rsync -aL --delete "$icons/" /usr/share/icons/Sweet-Wallust/ 2>/dev/null || true
+
+    # Point regreet at them. Both keys are rewritten every switch because the
+    # theme name carries the palette; the icon name is stable but is kept in the
+    # same place so the two cannot drift.
+    if [[ -w /etc/greetd/regreet.toml ]] || doas -n test -f /etc/greetd/regreet.toml 2>/dev/null; then
+        doas -n sed -i \
+            -e "s|^theme_name = .*|theme_name = \"Sweet-$name\"|" \
+            -e "s|^icon_theme_name = .*|icon_theme_name = \"Sweet-Wallust\"|" \
+            /etc/greetd/regreet.toml 2>/dev/null || true
+    fi
 }
 
 apply() {
@@ -152,7 +186,7 @@ apply() {
 
     set_gtk_theme "Sweet-$name"
     reload_gtk
-    install_greeter_css
+    install_greeter "$name"
 
     printf '%s\n' "$name" > "$CURRENT_FILE"
 
