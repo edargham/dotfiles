@@ -100,3 +100,8 @@ icon_reboot    = { template = "icons/reboot.svg",    target = "~/.config/rofi/ic
 icon_shutdown  = { template = "icons/shutdown.svg",  target = "~/.config/rofi/icons/shutdown.svg" }
 icon_yes       = { template = "icons/yes.svg",       target = "~/.config/rofi/icons/yes.svg" }
 icon_no        = { template = "icons/no.svg",        target = "~/.config/rofi/icons/no.svg" }
+
+# The palette as shell variables, for scripts that need a colour at runtime.
+# Consumed by wallust/build-icon-theme, and used with an isolated config dir to
+# extract a built-in wallust theme's 16 colours when importing a new palette.
+palette   = { template = "palette.sh",           target = "~/.config/wallust/generated/palette.sh" }

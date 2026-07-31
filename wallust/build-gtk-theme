@@ -1,0 +1,207 @@
+#!/usr/bin/env bash
+# build-gtk-theme [palette...] -- compile Sweet-Custom for each wallust palette.
+#
+#   build-gtk-theme            # build every palette in colorschemes/
+#   build-gtk-theme nord       # build just one
+#   build-gtk-theme --force    # rebuild even if up to date
+#
+# Output: ~/.local/share/themes/Sweet-<palette>/, one real GTK theme per palette.
+#
+# WHY BUILD INSTEAD OF OVERRIDE
+# Sweet-Custom compiles its palette in as literals -- 605 hex + 1013 rgb() in
+# gtk-3.0/gtk.css against just 25 @define-color references -- so the generated
+# ~/.config/gtk-{3,4}.0/gtk.css override barely reaches it and Nemo's chrome
+# never followed the palette. The SCSS sources reduce the whole palette to nine
+# variables (gtk-{3,4}.0/_palette.scss, generated below), so a real rebuild is
+# ~1s and reproduces the committed CSS with an identical hex set.
+#
+# WHY A NAME PER PALETTE
+# gtk_css_provider_get_named() caches theme providers in a process-static hash
+# keyed by NAME and never invalidates it. Rebuilding in place under one name
+# would therefore never reach a running app -- flipping gtk-theme away and back
+# returns the cached provider (measured: 99.07% of a Nemo window repainted as
+# Adwaita mid-flip, then back pixel-identical). A name the process has not seen
+# forces a real disk read, so switching palettes recolours open windows.
+#
+# WHY PRE-BUILD ALL OF THEM
+# ~2.7 MB and ~2s each. At the seven curated palettes that is ~19 MB and ~15s
+# once; at wallust's 616 built-ins it would have been 1.7 GB and 20 minutes,
+# which is why the built-in list was culled first.
+
+set -euo pipefail
+
+WALLUST_DIR="$HOME/.config/wallust"
+SCHEMES_DIR="$WALLUST_DIR/colorschemes"
+SRC="$HOME/.config/themes/Sweet-Custom"
+OUT_ROOT="$HOME/.local/share/themes"
+# Which assets bake the accent in; regenerate with the PIL scan in CLAUDE.md if
+# the theme's artwork ever changes.
+ACCENT_LIST="$WALLUST_DIR/gtk-accent-assets.txt"
+WORK="${XDG_RUNTIME_DIR:-/tmp}/build-gtk-theme.$$"
+
+die() { printf 'build-gtk-theme: %s\n' "$1" >&2; exit 1; }
+trap 'rm -rf "$WORK"' EXIT
+
+command -v sass >/dev/null 2>&1 || die "sass not installed (pacman -S dart-sass)"
+[[ -d "$SRC" ]] || die "theme sources not found: $SRC"
+
+FORCE=0
+ARGS=()
+for a in "$@"; do
+    case "$a" in
+        --force|-f) FORCE=1 ;;
+        -*)         die "unknown option '$a'" ;;
+        *)          ARGS+=("$a") ;;
+    esac
+done
+
+if (( ${#ARGS[@]} == 0 )); then
+    for f in "$SCHEMES_DIR"/*.json; do
+        [[ -e "$f" ]] && ARGS+=("$(basename "$f" .json)")
+    done
+fi
+
+# Newest mtime among the SCSS sources -- if the built CSS is newer than all of
+# them AND newer than the palette file, there is nothing to do.
+newest_src=$(find "$SRC"/gtk-3.0 "$SRC"/gtk-4.0 -name '*.scss' -printf '%T@\n' | sort -rn | head -1)
+
+# Render a palette's 16 colours WITHOUT touching the live desktop, by pointing
+# wallust at a throwaway config dir holding only the palette.sh template.
+setup_isolated() {
+    mkdir -p "$WORK/cfg/templates" "$WORK/cfg/colorschemes" "$WORK/out"
+    cp "$WALLUST_DIR/templates/palette.sh" "$WORK/cfg/templates/"
+    cp "$SCHEMES_DIR"/*.json "$WORK/cfg/colorschemes/" 2>/dev/null || true
+    cat > "$WORK/cfg/wallust.toml" <<EOF
+palette = "dark16"
+backend = "fastresize"
+color_space = "lch"
+[templates]
+palette = { template = "palette.sh", target = "$WORK/out/palette.sh" }
+EOF
+}
+
+build_one() {
+    # Two statements on purpose: `local a="$1" b="$a"` declares BOTH names first,
+    # so the second reads an unset local and dies under `set -u`.
+    local name="$1"
+    local dst="$OUT_ROOT/Sweet-$name"
+    [[ -f "$SCHEMES_DIR/$name.json" ]] || die "unknown palette '$name'"
+
+    if (( ! FORCE )) && [[ -f "$dst/gtk-3.0/gtk.css" ]]; then
+        local built; built=$(stat -c %Y "$dst/gtk-3.0/gtk.css")
+        local pal;   pal=$(stat -c %Y "$SCHEMES_DIR/$name.json")
+        if (( built > ${newest_src%.*} && built > pal )); then
+            printf '  %-20s up to date\n' "$name"; return 0
+        fi
+    fi
+
+    wallust cs "$name" -d "$WORK/cfg" --skip-sequences --quiet 2>/dev/null ||
+        die "wallust could not render '$name'"
+    # shellcheck source=/dev/null
+    . "$WORK/out/palette.sh"
+
+    # Compile from a scratch copy so the repo is never mutated per palette.
+    local b="$WORK/build"
+    rm -rf "$b"; mkdir -p "$b/gtk-3.0" "$b/gtk-4.0"
+    for v in gtk-3.0 gtk-4.0; do
+        # Whole .scss tree, not just the top level -- _widgets.scss imports
+        # widgets/* and _apps.scss imports apps/*.
+        ( cd "$SRC/$v" && find . -name '*.scss' -exec cp --parents {} "$b/$v/" \; )
+        # BACKGROUND/FOREGROUND, not color0/color7. The two coincide in
+        # cyberpunk but diverge in 5 of the 7 palettes -- nord's color0 is
+        # #3b4252 (a lighter surface) while its real background is #2e3440 --
+        # so using color0 gave imported themes a washed-out window background
+        # that disagreed with waybar and hyprland.
+        cat > "$b/$v/_palette.scss" <<EOF
+// GENERATED per palette by ~/.config/wallust/build-gtk-theme.
+\$P_ACCENT_LIGHT: $C3;
+\$P_ACCENT:       $C2;
+\$P_ACCENT_DEEP:  $C4;
+\$P_TERTIARY:     $C5;
+\$P_SECONDARY:    $C1;
+\$P_BG:           $BACKGROUND;
+\$P_BG_ALT:       $C8;
+\$P_FG:           $FOREGROUND;
+\$P_WHITE:        $C15;
+EOF
+        mkdir -p "$dst/$v"
+        # Compile to a temp file and move into place. A sass failure otherwise
+        # leaves a truncated gtk.css that the freshness check below accepts as
+        # a finished build -- which is exactly what happened on the first run.
+        for entry in gtk gtk-dark; do
+            sass --no-source-map --style=expanded --quiet --quiet-deps \
+                 "$b/$v/$entry.scss" "$b/$v/$entry.out.css"
+            mv "$b/$v/$entry.out.css" "$dst/$v/$entry.css"
+        done
+    done
+
+    # Assets are referenced as BOTH url("assets/..") and url("../assets/..").
+    # Hardlinked: 2.3 MB of identical bytes costs nothing and individual files
+    # can still be replaced per palette (see the recolour step).
+    for a in "$SRC/assets" "$SRC/gtk-3.0/assets" "$SRC/gtk-4.0/assets"; do
+        [[ -d "$a" ]] || continue
+        local rel="${a#"$SRC"/}"
+        rm -rf "${dst:?}/$rel"; mkdir -p "$(dirname "$dst/$rel")"
+        cp -al "$a" "$dst/$rel"
+    done
+
+    # --- accent-bearing image assets ------------------------------------------
+    #
+    # 127 of the 262 PNGs in assets/ (every checkbox, radio, calendar-selected,
+    # scale-slider-hover) have the accent gradient rendered INTO the bitmap, so
+    # the SCSS rebuild above leaves them cyan while the widget around them
+    # follows the palette. They are re-rendered from the theme's own master SVGs
+    # with its own render script -- inkscape --shell does ~127 icons in ~17s.
+    #
+    # A pixel remap of the PNGs was tried first and rejected: hue substitution
+    # cannot reproduce an accent->purple ramp in a palette whose tertiary is a
+    # cool green, and rescaling saturation bleaches everything to pastel.
+    # Substituting the ~17 palette hexes in the SVG and re-rendering is exact.
+    if [[ -x /usr/bin/inkscape && -f "$SRC/src/render-gtk3-assets.py" && -r "$ACCENT_LIST" ]]; then
+        local r="$dst/_render"
+        rm -rf "$r"; mkdir -p "$r/gtk3"
+        cp "$SRC/src/render-gtk3-assets.py" "$r/"
+        cp "$SRC/src/gtk3/"*.svg "$r/gtk3/"
+        sed -i "s/#5de5ff/$C2/Ig; s/#00b8e6/$C4/Ig; s/#d946ef/$C1/Ig; s/#b456f0/$C5/Ig; s/#c7f5ff/$C3/Ig" \
+            "$r/gtk3/"*.svg
+
+        # MUST unlink first. The assets above are HARDLINKS into the repo, and
+        # inkscape --export-filename truncates the target in place -- writing
+        # through a hardlink would corrupt themes/Sweet-Custom/assets/ itself.
+        local n
+        while IFS= read -r n; do
+            [[ -n "$n" ]] && rm -f "$dst/assets/$n.png"
+        done < "$ACCENT_LIST"
+
+        mapfile -t _names < "$ACCENT_LIST"
+        ( cd "$r" && for svg in gtk3-assets gtk3-assets-dark; do
+              [[ -f "gtk3/$svg.svg" ]] &&
+                  python3 render-gtk3-assets.py "$svg" "${_names[@]}" >/dev/null 2>&1
+          done )
+        rm -rf "$r"
+    fi
+
+    # Inert under Hyprland, but keep the theme structurally complete.
+    for d in gtk-2.0 cinnamon metacity-1 xfwm4 gnome-shell; do
+        [[ -e "$SRC/$d" ]] && ln -sfnT "$SRC/$d" "$dst/$d"
+    done
+
+    cat > "$dst/index.theme" <<EOF
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Sweet-$name
+Comment=GENERATED by ~/.config/wallust/build-gtk-theme from the '$name' palette.
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Sweet-$name
+MetacityTheme=Sweet-$name
+IconTheme=Sweet-Wallust
+ButtonLayout=:minimize,maximize,close
+EOF
+
+    printf '  %-20s built  accent=%s bg=%s\n' "$name" "$C2" "$BACKGROUND"
+}
+
+setup_isolated
+for n in "${ARGS[@]}"; do build_one "$n"; done

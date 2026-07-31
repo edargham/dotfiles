@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# build-icon-theme -- generate the Sweet-Wallust icon theme from the palette.
+#
+# Called from theme-switch on every palette change. Rebuilds
+# ~/.local/share/icons/Sweet-Wallust as a recoloured copy of the stock
+# Sweet-Purple theme, so folder icons follow the desktop palette instead of
+# being frozen at purple.
+#
+# WHY A COPY AND NOT A TEMPLATE
+# Sweet-Purple is 60 real SVGs plus 104 symlinks (folder-documents.svg ->
+# folder.svg and friends). Rendering 60 wallust templates would lose the
+# symlink structure and duplicate upstream artwork that never changes. A
+# copy + two substitutions keeps upstream as the source and stays ~280K.
+#
+# WHY A STABLE THEME NAME
+# GtkIconTheme calls blow_themes() on ANY gtk-icon-theme-name change and
+# re-reads from disk, so a name flip is enough to reload running apps -- no
+# per-palette name is needed. (GTK's CSS provider is the opposite: it caches
+# per name forever, which is why the GTK *widget* theme cannot hot-reload this
+# way. See CLAUDE.md.) A stable name also means rofi/config.rasi, both
+# settings.ini files and ~/.gtkrc-2.0 are edited once and never again.
+#
+# WHAT IS RECOLOURED
+# The folder gradient's two stops, plus candy-icons' GENERIC document gradient
+# (see the mimetypes section below). Everything else is either neutral
+# (#4d4d4d, a 16px detail) or deliberately semantic -- folder-red is #da4453,
+# folder-green #2ecc71, folder-blue #3daee9, and every language/format icon has
+# its own brand gradient. A user who picks "red folder" in Nemo means red, not
+# "the palette's first accent"; likewise yellow means JavaScript.
+
+set -euo pipefail
+
+SRC="/usr/share/icons/Sweet-Purple"
+DST="$HOME/.local/share/icons/Sweet-Wallust"
+NAME="Sweet-Wallust"
+PALETTE="$HOME/.config/wallust/generated/palette.sh"
+
+# The two gradient stops every folder in Sweet-Purple is drawn with.
+# Places/48 writes them uppercase, Places/16 lowercase -- hence sed's /I.
+GRAD_START="C50ED2"   # -> C2, primary accent
+GRAD_END="8500F7"     # -> C1, magenta
+
+# candy-icons (inherited, see the mimetypes section below) draws its GENERIC
+# document with its own pair. Deliberately a DIFFERENT pair from the folders, so
+# files and folders don't collapse into the same two colours.
+#
+# C3 -> C5 is "light accent -> tertiary" straight out of the slot contract at the
+# top of wallust.toml. It briefly moved to C4 -> C2 because the imported palettes
+# had red sitting in C5 (gruvbox documents came out green->red) -- but that was
+# the palettes violating the contract, not the mapping being wrong, and changing
+# it here silently altered cyberpunk, which was fine all along. The palettes were
+# corrected instead; fix a slot's CONTENTS, not every consumer that reads it.
+DOC_START="ea8bf3"    # -> C3, light accent
+DOC_END="826ef5"      # -> C5, purple / tertiary
+
+CANDY_MIME="/usr/share/icons/candy-icons/mimetypes/scalable"
+
+die() { printf 'build-icon-theme: %s\n' "$1" >&2; exit 1; }
+
+[[ -d "$SRC"     ]] || die "source theme not found: $SRC (install sweet-folders)"
+[[ -r "$PALETTE" ]] || die "palette not rendered yet: $PALETTE (run wallust first)"
+
+# shellcheck source=/dev/null
+. "$PALETTE"
+
+# Guard before substituting: an empty replacement would silently strip the
+# colour and leave the icons black.
+for v in C1 C2 C3 C4 C5; do
+    [[ "${!v-}" =~ ^#[0-9a-fA-F]{6}$ ]] || die "$v is not a hex colour: '${!v-}'"
+done
+
+# Rebuild from scratch rather than patching in place -- a previous run already
+# replaced the source hexes, so an incremental pass would have nothing to match.
+# -a preserves the 104 symlinks, so only the 60 real files are rewritten.
+rm -rf "$DST"
+mkdir -p "$(dirname "$DST")"
+cp -a "$SRC" "$DST"
+
+# Shipped cache indexes the ORIGINAL svgs and shadows anything we write.
+rm -f "$DST/icon-theme.cache"
+
+# -type f skips the symlinks; rewriting through them would edit the same real
+# file up to a dozen times.
+find "$DST/Places" -type f -name '*.svg' -print0 |
+    xargs -0 --no-run-if-empty \
+        sed -i "s/#${GRAD_START}/${C2}/Ig; s/#${GRAD_END}/${C1}/Ig"
+
+# --- mimetypes: the GENERIC document icon only ------------------------------
+#
+# candy-icons is inherited for everything Sweet-Purple does not provide, and it
+# gives EVERY file type its own hand-picked gradient -- Ruby red-orange, Rust
+# salmon, JavaScript yellow, Python blue/yellow, spreadsheet green, Markdown
+# magenta. That colour is information, so recolouring the set wholesale would
+# flatten "yellow = JS" into noise. Only the generic document pair moves; 9 of
+# candy's 266 mimetype names resolve to it, including the text-x-generic that
+# GTK falls back to for any text/* with no icon of its own.
+#
+# The WHOLE directory is mirrored, even though only 7 of its 39 real files get
+# touched. Copying just the generic ones and letting the rest fall through to
+# candy-icons LOOKS tidier and is wrong: GTK resolves icons **theme-major**, so
+# it tries every name from the Gio fallback chain in the first theme before
+# moving on. Gio asks for ['text-x-python', 'text-x-generic', ...], so a
+# Sweet-Wallust that provides only text-x-generic answers the Python lookup
+# with the generic icon and never reaches candy's text-x-python. Measured:
+# python, rust and css all collapsed to text-x-generic. Keeping every name in
+# one theme restores name-order specificity.
+#
+# Cost is 280K. The copy goes stale if candy-icons is upgraded, and self-heals
+# on the next theme switch.
+if [[ -d "$CANDY_MIME" ]]; then
+    cp -a "$(dirname "$CANDY_MIME")" "$DST/mimetypes"
+
+    # Only the 7 generic-gradient files match; the other 32 stay byte-identical
+    # to candy's, so Ruby stays red-orange and JavaScript stays yellow.
+    find "$DST/mimetypes" -type f -name '*.svg' -print0 |
+        xargs -0 --no-run-if-empty \
+            sed -i "s/#${DOC_START}/${C3}/Ig; s/#${DOC_END}/${C5}/Ig"
+
+    # Register the directory, or the lookup never reaches it. Same spec
+    # candy-icons uses for its own mimetypes/scalable.
+    grep -q '^Directories=.*mimetypes/scalable' "$DST/index.theme" ||
+        sed -i 's|^\(Directories=.*\)$|\1,mimetypes/scalable|' "$DST/index.theme"
+    grep -q '^\[mimetypes/scalable\]' "$DST/index.theme" || cat >> "$DST/index.theme" <<'EOF'
+
+[mimetypes/scalable]
+Size=96
+Context=MimeTypes
+Type=Scalable
+MinSize=8
+MaxSize=256
+EOF
+fi
+
+# Only the theme's identity changes; Inherits= (candy-icons for app icons) and
+# the [Places/*] directory blocks must survive verbatim.
+sed -i "s/^Name=.*/Name=${NAME}/; s/^Comment=.*/Comment=Folder and generic-document icons generated from the active wallust palette./" \
+    "$DST/index.theme"
+
+command -v gtk-update-icon-cache >/dev/null 2>&1 &&
+    gtk-update-icon-cache -q -f -t "$DST" 2>/dev/null || true
+
+printf 'build-icon-theme: %s  folders %s -> %s  docs %s -> %s\n' "$NAME" "$C2" "$C1" "$C3" "$C5"

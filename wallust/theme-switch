@@ -6,7 +6,11 @@
 #   theme-switch --list     # print available palettes
 #   theme-switch --current  # print the active palette
 #
-# Palettes live in ~/.config/wallust/colorschemes/*.json (pywal format).
+# Palettes live in ~/.config/wallust/colorschemes/*.json (pywal format) and are
+# the ONLY source -- wallust's ~616 built-in themes are deliberately not offered.
+# To add one: `wallust theme <Name> --preview` to read its 16 colours, drop them
+# in a new .json here, and it appears in the picker. Nothing else needs editing.
+#
 # wallust renders every template declared in wallust.toml, then this script
 # reloads each consumer. wallust itself has no post-hook support, which is why
 # the reloads live here.
@@ -23,7 +27,12 @@ CURRENT_FILE="$WALLUST_DIR/current"
 
 die() { printf 'theme-switch: %s\n' "$1" >&2; exit 1; }
 
-# Curated palettes: exact hand-authored colours in colorschemes/*.json.
+# Every palette is a curated file in colorschemes/*.json. wallust also ships
+# ~616 built-in themes and this script used to offer all of them, which was
+# noise: nobody picks from 616, they look alike once rendered through our
+# templates, and none of them can be tweaked. Six were kept, converted to
+# colourschemes with `wallust theme <name> --preview`, and the built-in path
+# was removed -- so `wallust cs` is now the only way a palette is applied.
 list_palettes() {
     [[ -d "$SCHEMES_DIR" ]] || return 0
     for f in "$SCHEMES_DIR"/*.json; do
@@ -32,29 +41,77 @@ list_palettes() {
     done
 }
 
-# wallust also ships ~617 named themes, and they render our templates exactly
-# the same way -- so they are offered alongside the curated ones for free.
-list_builtin() {
-    wallust theme list 2>/dev/null | sed -n 's/^- //p'
-}
-
 is_curated() { [[ -f "$SCHEMES_DIR/$1.json" ]]; }
 
 current_palette() {
     [[ -r "$CURRENT_FILE" ]] && cat "$CURRENT_FILE" || echo ""
 }
 
-# Nudge GTK apps into re-reading ~/.config/gtk-{3,4}.0/gtk.css. GTK caches the
-# user stylesheet, and only a theme-change notification makes it re-read; the
-# flip to a different theme name and back is what triggers it.
+# Nudge GTK apps into re-reading their theming. Both flips work the same way --
+# away to a name that is always installed, then back -- because GTK only
+# re-reads on a theme-change notification.
+#
+# The ICON flip genuinely hot-reloads: GtkIconTheme blows its cache and re-reads
+# from disk on any gtk-icon-theme-name change, so open windows pick up the SVGs
+# build-icon-theme just wrote.
+#
+# The GTK-THEME flip is weaker than it looks. gtk_css_provider_get_named()
+# caches providers in a process-static hash keyed by name, so coming back to the
+# same name returns the CACHED provider -- and ~/.config/gtk-{3,4}.0/gtk.css is
+# read once at app start and never again. It is kept because it costs nothing
+# and does refresh a few settings-derived bits, but do not expect running GTK
+# apps to change colour from it. See CLAUDE.md for why that is mostly moot here.
+# Point every GTK entry point at the palette's built theme. The name changes per
+# palette on purpose -- that is what makes a running app re-read the CSS, since
+# gtk_css_provider_get_named() caches providers by name forever.
+#
+# settings.ini and ~/.gtkrc-2.0 are lower-priority than the portal/gsettings
+# value at runtime, but they are the fallback when the portal is unavailable and
+# the only thing GTK2 reads, so keep all four in step.
+set_gtk_theme() {
+    local theme="$1"
+    [[ -d "$HOME/.local/share/themes/$theme" ]] || return 0
+
+    command -v gsettings >/dev/null 2>&1 &&
+        gsettings set org.gnome.desktop.interface gtk-theme "$theme" 2>/dev/null || true
+
+    local f
+    for f in "$HOME/.config/gtk-3.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"; do
+        [[ -w "$f" ]] && sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$theme/" "$f"
+    done
+    f="$HOME/.gtkrc-2.0"
+    [[ -w "$f" ]] && sed -i "s/^gtk-theme-name=.*/gtk-theme-name=\"$theme\"/" "$f"
+    return 0
+}
+
 reload_gtk() {
     command -v gsettings >/dev/null 2>&1 || return 0
-    local key="org.gnome.desktop.interface" theme
+    local key="org.gnome.desktop.interface" theme icons
     theme=$(gsettings get "$key" gtk-theme 2>/dev/null | tr -d "'") || return 0
-    [[ -n "$theme" ]] || return 0
-    gsettings set "$key" gtk-theme "Adwaita" 2>/dev/null || return 0
-    sleep 0.3
-    gsettings set "$key" gtk-theme "$theme" 2>/dev/null || true
+    icons=$(gsettings get "$key" icon-theme 2>/dev/null | tr -d "'") || return 0
+
+    if [[ -n "$icons" ]]; then
+        gsettings set "$key" icon-theme "Adwaita" 2>/dev/null || true
+        sleep 0.3
+        gsettings set "$key" icon-theme "$icons" 2>/dev/null || true
+        # Keep the Cinnamon schema in step so the two can never disagree.
+        gsettings set org.cinnamon.desktop.interface icon-theme "$icons" 2>/dev/null || true
+    fi
+
+    # NO away-and-back flip for gtk-theme. It used to do one, and it was pure
+    # cost: measured on an open Nemo window, the detour repainted 99.07% of the
+    # window as Adwaita for ~0.3s and then came back PIXEL-IDENTICAL (0 differing
+    # px) to where it started -- a full-window flash for zero net change. The
+    # return trip cannot change anything because gtk_css_provider_get_named()
+    # serves the same process-cached provider for a name it has already loaded,
+    # and ~/.config/gtk-{3,4}.0/gtk.css is read once at app start regardless.
+    # The icon flip above is the opposite: GtkIconTheme really does re-read.
+    #
+    # Mirroring the value into the Cinnamon schema is still worth doing (it had
+    # drifted to a nonexistent 'Sweet:dark'); writing an unchanged value emits no
+    # change notification, so it costs nothing.
+    [[ -n "$theme" ]] &&
+        gsettings set org.cinnamon.desktop.interface gtk-theme "$theme" 2>/dev/null || true
 }
 
 # Install the generated greeter stylesheet into /etc. Needs root, so it is
@@ -71,13 +128,8 @@ install_greeter_css() {
 apply() {
     local name="$1"
 
-    if is_curated "$name"; then
-        wallust cs "$name" --skip-sequences --quiet
-    elif list_builtin | grep -qxF "$name"; then
-        wallust theme "$name" --skip-sequences --quiet
-    else
-        die "unknown theme '$name' (try --list)"
-    fi
+    is_curated "$name" || die "unknown palette '$name' (try --list)"
+    wallust cs "$name" --skip-sequences --quiet
 
     # Compositor: re-executes the Lua config, picking up theme/colors.lua.
     command -v hyprctl >/dev/null 2>&1 && hyprctl reload >/dev/null 2>&1 || true
@@ -88,6 +140,17 @@ apply() {
     # Notification daemon.
     command -v swaync-client >/dev/null 2>&1 && swaync-client -rs >/dev/null 2>&1 || true
 
+    # Folder icons: recolour Sweet-Wallust from the palette wallust just wrote.
+    # Must run BEFORE reload_gtk, which is what makes running apps re-read it.
+    [[ -x "$WALLUST_DIR/build-icon-theme" ]] &&
+        "$WALLUST_DIR/build-icon-theme" >/dev/null || true
+
+    # GTK widget theme. Normally already built (all palettes are pre-built), so
+    # this is a no-op; it only compiles if the palette or the SCSS changed.
+    [[ -x "$WALLUST_DIR/build-gtk-theme" ]] &&
+        "$WALLUST_DIR/build-gtk-theme" "$name" >/dev/null || true
+
+    set_gtk_theme "Sweet-$name"
     reload_gtk
     install_greeter_css
 
@@ -103,28 +166,29 @@ apply() {
     # superfile, and Qt apps. Alacritty reloads itself via its config import.
 }
 
-# Curated palettes come first (they are the hand-tuned ones), then the built-in
-# library. The active theme is marked so the menu shows what is already applied.
+# The active palette is marked so the menu shows what is already applied.
 menu_entries() {
     local cur; cur=$(current_palette)
-    { list_palettes; list_builtin; } | awk -v cur="$cur" '
-        !seen[$0]++ { print ($0 == cur ? $0 " (current)" : $0) }'
+    list_palettes | awk -v cur="$cur" '{ print ($0 == cur ? $0 " (current)" : $0) }'
 }
 
 pick() {
-    command -v rofi >/dev/null 2>&1 || die "rofi not available; pass a theme name instead"
-    local choice
+    command -v rofi >/dev/null 2>&1 || die "rofi not available; pass a palette name instead"
+    local choice n
+    n=$(list_palettes | wc -l)
     choice=$(menu_entries | rofi -dmenu -i -p 'Theme' \
-                 -theme-str 'listview { lines: 12; } window { width: 24%; }')
+                 -theme-str "listview { lines: $n; } window { width: 24%; }")
     [[ -n "${choice:-}" ]] || exit 0
     apply "${choice% (current)}"
 }
 
 case "${1-}" in
     ""          ) pick ;;
-    --list|-l   ) list_palettes; list_builtin ;;
+    --list|-l   ) list_palettes ;;
     --current|-c) current_palette ;;
-    -h|--help   ) sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//' ;;
+    # Print the header block, however long it happens to be -- a hardcoded line
+    # range silently drifts every time the comment is edited.
+    -h|--help   ) awk 'NR>1 && /^#/ { sub(/^# ?/, ""); print; next } NR>1 { exit }' "$0" ;;
     -*          ) die "unknown option '$1'" ;;
     *           ) apply "$1" ;;
 esac

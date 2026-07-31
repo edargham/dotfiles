@@ -1,3 +1,7 @@
+// NOTE: this file is imported AFTER _colors.scss and used to REDEFINE the
+// $CYBERPUNK_* anchors with literals, silently overriding the generated
+// palette (36 cyberpunk colours survived into every other theme's CSS).
+// It now references _palette.scss like _colors.scss does.
 $STRAWBERRY_100: #ff8c82;
 $STRAWBERRY_300: #ed5353;
 $STRAWBERRY_500: #c6262e;
@@ -28,11 +32,11 @@ $MINT_500: $CYBERPUNK_500; // #00b8e6
 $MINT_700: $CYBERPUNK_700; // #b456f0
 $MINT_900: $CYBERPUNK_900; // #d946ef
 
-$CYBERPUNK_100: #c7f5ff;
-$CYBERPUNK_300: #5de5ff;
-$CYBERPUNK_500: #00b8e6;
-$CYBERPUNK_700: #b456f0;
-$CYBERPUNK_900: #d946ef;
+$CYBERPUNK_100: $P_ACCENT_LIGHT;
+$CYBERPUNK_300: $P_ACCENT;
+$CYBERPUNK_500: $P_ACCENT_DEEP;
+$CYBERPUNK_700: $P_TERTIARY;
+$CYBERPUNK_900: $P_SECONDARY;
 
 $BLUEBERRY_100: #8cd5ff;
 $BLUEBERRY_300: #64baff;

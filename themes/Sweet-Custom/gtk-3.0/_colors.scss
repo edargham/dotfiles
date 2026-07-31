@@ -1,21 +1,26 @@
+// Palette comes from _palette.scss, which is GENERATED per palette by
+// ~/.config/wallust/build-gtk-theme. The $CYBERPUNK_* names below are
+// historical -- they hold whatever palette is being built.
+@import 'palette';
+
 // When color definition differs for dark and light variant
 // it gets @if ed depending on $variant
 
 // CYBERPUNK color palette definitions
-$CYBERPUNK_100: #c7f5ff;
-$CYBERPUNK_300: #5de5ff;
-$CYBERPUNK_500: #00b8e6;
-$CYBERPUNK_700: #b456f0;
-$CYBERPUNK_900: #d946ef;
+$CYBERPUNK_100: $P_ACCENT_LIGHT;
+$CYBERPUNK_300: $P_ACCENT;
+$CYBERPUNK_500: $P_ACCENT_DEEP;
+$CYBERPUNK_700: $P_TERTIARY;
+$CYBERPUNK_900: $P_SECONDARY;
 
 // Main definitions
-$base_color: if($variant == 'light', #ebf0f5, lighten(#161925, 1%));
-$text_color: if($variant == 'light', #31363D, #C3C7D1);
-$bg_color: if($variant == 'light', darken( #EEEEEE, 3%), #161925);
-$fg_color: if($variant == 'light', #31363d, #C3C7D1);
+$base_color: if($variant == 'light', #ebf0f5, lighten($P_BG, 1%));
+$text_color: if($variant == 'light', #31363D, $P_FG);
+$bg_color: if($variant == 'light', darken( #EEEEEE, 3%), $P_BG);
+$fg_color: if($variant == 'light', #31363d, $P_FG);
 $switch_bg: if($variant == 'light', #ffffff, transparentize(black,1));
 $shadow_color: rgba(162, 162, 165, 0.21);
-$_sidebar_color: if($variant == 'light', #222e39, #161925);
+$_sidebar_color: if($variant == 'light', $P_BG_ALT, $P_BG);
 
 // Primary colors - NUCLEAR CYBERPUNK MODE - CYAN DOMINANCE
 $lime: $CYBERPUNK_500;        // Use cyan for lime
@@ -29,7 +34,7 @@ $cyan: $CYBERPUNK_500;        // Use cyan for cyan
 $slider: $CYBERPUNK_500;      // Use cyan for slider
 $teal: $CYBERPUNK_500;        // Use cyan for teal
 
-$selected_fg_color: #fefefe;
+$selected_fg_color: $P_WHITE;
 $selected_bg_color: $CYBERPUNK_500; // NUCLEAR: Primary cyberpunk cyan - fallback for compatibility
 $selected_bg_gradient: linear-gradient(135deg, $CYBERPUNK_300 0%, $CYBERPUNK_700 100%);
 $selected_borders_color: $CYBERPUNK_700;
@@ -61,7 +66,7 @@ $success_color: $CYBERPUNK_300;
 $destructive_color: if($variant == 'light', $CYBERPUNK_500, $CYBERPUNK_500);
 $suggested_color: if($variant == 'light', $CYBERPUNK_500, $CYBERPUNK_500);
 
-$osd_fg_color: #fefefe;
+$osd_fg_color: $P_WHITE;
 $osd_text_color: white;
 $osd_bg_color:  transparentize(darken($_sidebar_color, 3%), 0.02);
 $osd_insensitive_bg_color: transparentize(mix($osd_fg_color, opacify($osd_bg_color, 1), 10%), 0.5);
@@ -86,8 +91,8 @@ $info_color: $CYBERPUNK_300;
 $question_color: $CYBERPUNK_500;
 
 // Panel colors
-$panel_bg_color: #222e39;
-$panel_fg_color: #C3C7D1;
+$panel_bg_color: $P_BG_ALT;
+$panel_fg_color: $P_FG;
 $panel_borders_color: transparentize(black, 0.8);
 
 // Disabled state colors
