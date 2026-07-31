@@ -66,6 +66,18 @@ hl.config({
     misc = {
         force_default_wallpaper = -1,    -- 0 or 1 disables the anime mascot wallpapers
         disable_hyprland_logo   = false, -- true disables the random hyprland logo background
+
+        -- Both default to FALSE upstream, which makes a DPMS-off screen
+        -- unrecoverable from the console: no keypress and no mouse move wake
+        -- the displays, only SSH. hypridle blanks them on idle
+        -- (hypridle.conf's 1200s listener), so leaving these unset turns every
+        -- idle desktop into a lockout -- and it did, twice.
+        --
+        -- These MUST stay true for as long as anything dispatches dpms off.
+        -- Verify with: hyprctl -j getoption misc:key_press_enables_dpms
+        -- (`"set": true` is the assertion that matters, not just the value).
+        key_press_enables_dpms  = true,
+        mouse_move_enables_dpms = true,
     },
 
     input = {

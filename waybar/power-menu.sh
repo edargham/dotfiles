@@ -43,7 +43,7 @@ CHOICE=$(printf '%s\0icon\x1f%s\n' \
 case "$CHOICE" in
     Lock)      hyprlock ;;
     Suspend)   systemctl suspend ;;
-    Logout)    confirm 'Log out?'   && hyprctl dispatch exit ;;
+    Logout)    confirm 'Log out?'   && hyprctl dispatch 'hl.dsp.exit()' ;;
     Hibernate) confirm 'Hibernate?' && systemctl hibernate ;;
     Restart)   confirm 'Reboot?'    && systemctl reboot ;;
     Shutdown)  confirm 'Shut down?' && systemctl poweroff ;;
